@@ -84,21 +84,23 @@
 				<div class="row tab-content">
 					<div class="tab-pane  fade in active" id="all">
 						<div id="tab-carousel-1" class="re-owl-carousel owl-carousel product-slider owl-theme">
-							<div class="col-xs-12">
-								<div class="single-product">
+							 {% for item in shoes %}
+
+                            <div class="col-xs-12">
+                               <div class="single-product">
                                     <div class="product-img">
                                         <div class="pro-type">
-                                            <span>sale</span>
+                                            <span>Акция</span>
                                         </div>
                                         <a href="#">
-                                            <img src="{% static 'img/products/15.jpg' %}" alt="Product Title" />
-                                            <img class="secondary-image" alt="Product Title" src="{% static 'img/products/14.jpg' %}">
+                                            <img src="{{ item.photo.url }}" alt="Изображение обуви" />
+                                            <img class="secondary-image" alt="Изображение обуви" src="{{ item.photo.url }}">
                                         </a>
                                     </div>
                                     <div class="product-dsc">
-                                        <h3><a href="#">Product Title</a></h3>
+                                        <h3><a href="#">{{ item.title }}</a></h3>
                                         <div class="star-price">
-                                            <span class="price-left">$52.00</span>
+                                            <span class="price-left">{{ item.price }}</span>
                                             <span class="star-right">
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
@@ -116,129 +118,10 @@
                                     </div>
                                 </div>
 							</div>
-							<!-- single product end -->
-							<div class="col-xs-12">
-								<div class="single-product">
-                                    <div class="product-img">
-                                        <a href="#">
-                                            <img src="{% static 'img/products/13.jpg' %}" alt="Product Title" />
-                                            <img class="secondary-image" alt="Product Title" src="{% static 'img/products/12.jpg' %}">
-                                        </a>
-                                    </div>
-                                    <div class="product-dsc">
-                                        <h3><a href="#">Product Title</a></h3>
-                                        <div class="star-price">
-                                            <span class="price-left">$52.00</span>
-                                            <span class="star-right">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-half-o"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="actions-btn">
-                                        <a href="#" data-placement="top" data-target="#quick-view" data-trigger="hover" data-toggle="modal" data-original-title="Quick View"><i class="fa fa-eye"></i></a>
-                                        <a data-placement="top" data-toggle="tooltip" href="#" data-original-title="Add To Wishlist"><i class="fa fa-heart"></i></a>
-                                        <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Compare"><i class="fa fa-retweet"></i></a>
-                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="fa fa-shopping-cart"></i></a>
-                                    </div>
-                                </div>
-							</div>
-							<!-- single product end -->
-							<div class="col-xs-12">
-								<div class="single-product">
-                                    <div class="product-img">
-                                        <a href="#">
-                                            <img src="{% static 'img/products/11.jpg' %}" alt="Product Title" />
-                                            <img class="secondary-image" alt="Product Title" src="{% static 'img/products/10.jpg' %}">
-                                        </a>
-                                    </div>
-                                    <div class="product-dsc">
-                                        <h3><a href="#">Product Title</a></h3>
-                                        <div class="star-price">
-                                            <span class="price-left">$52.00</span>
-                                            <span class="star-right">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-half-o"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="actions-btn">
-                                        <a href="#" data-placement="top" data-target="#quick-view" data-trigger="hover" data-toggle="modal" data-original-title="Quick View"><i class="fa fa-eye"></i></a>
-                                        <a data-placement="top" data-toggle="tooltip" href="#" data-original-title="Add To Wishlist"><i class="fa fa-heart"></i></a>
-                                        <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Compare"><i class="fa fa-retweet"></i></a>
-                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="fa fa-shopping-cart"></i></a>
-                                    </div>
-                                </div>
-							</div>
-							<!-- single product end -->
-							<div class="col-xs-12">
-								<div class="single-product">
-                                    <div class="product-img">
-                                        <div class="pro-type">
-                                            <span>new</span>
-                                        </div>
-                                        <a href="#">
-                                            <img src="{% static 'img/products/4.jpg' %}" alt="Product Title" />
-                                            <img class="secondary-image" alt="Product Title" src="{% static 'img/products/3.jpg' %}">
-                                        </a>
-                                    </div>
-                                    <div class="product-dsc">
-                                        <h3><a href="#">Product Title</a></h3>
-                                        <div class="star-price">
-                                            <span class="price-left">$52.00</span>
-                                            <span class="star-right">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-half-o"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="actions-btn">
-                                        <a href="#" data-placement="top" data-target="#quick-view" data-trigger="hover" data-toggle="modal" data-original-title="Quick View"><i class="fa fa-eye"></i></a>
-                                        <a data-placement="top" data-toggle="tooltip" href="#" data-original-title="Add To Wishlist"><i class="fa fa-heart"></i></a>
-                                        <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Compare"><i class="fa fa-retweet"></i></a>
-                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="fa fa-shopping-cart"></i></a>
-                                    </div>
-                                </div>
-							</div>
-							<!-- single product end -->
-							<div class="col-xs-12">
-								<div class="single-product">
-                                    <div class="product-img">
-                                        <a href="#">
-                                            <img src="{% static 'img/products/6.jpg' %}" alt="Product Title" />
-                                            <img class="secondary-image" alt="Product Title" src="{% static 'img/products/5.jpg' %}">
-                                        </a>
-                                    </div>
-                                    <div class="product-dsc">
-                                        <h3><a href="#">Product Title</a></h3>
-                                        <div class="star-price">
-                                            <span class="price-left">$52.00</span>
-                                            <span class="star-right">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-half-o"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="actions-btn">
-                                        <a href="#" data-placement="top" data-target="#quick-view" data-trigger="hover" data-toggle="modal" data-original-title="Quick View"><i class="fa fa-eye"></i></a>
-                                        <a data-placement="top" data-toggle="tooltip" href="#" data-original-title="Add To Wishlist"><i class="fa fa-heart"></i></a>
-                                        <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Compare"><i class="fa fa-retweet"></i></a>
-                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="fa fa-shopping-cart"></i></a>
-                                    </div>
-                                </div>
-							</div>
+
+
+                                {% endfor %}
+
 							<!-- single product end -->
 						</div>
 					</div>

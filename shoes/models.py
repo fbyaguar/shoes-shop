@@ -23,6 +23,9 @@ class Size(models.Model):
     # twenty_five= models.BooleanField(default=False, verbose_name='25')
     url = models.SlugField(max_length=150, unique=True)
 
+    def __str__(self):
+        return str(self.number)
+
     class Meta:
         verbose_name = 'Размер'
         verbose_name_plural = 'Размеры'
@@ -89,7 +92,7 @@ class Shoes(models.Model):
     price = models.PositiveSmallIntegerField(default=0,verbose_name='Цена')
     created = models.DateTimeField(auto_now_add=True,verbose_name='Дата создания')
     updated = models.DateTimeField(auto_now=True,verbose_name='Дата обновления')
-    photo = models.ImageField(upload_to='photos/%Y/%M/%D', blank=True, verbose_name='Фото')
+    photo = models.ImageField(upload_to='photos/%Y/%M/%D', blank=True, verbose_name='Фото',help_text='размер фото 200X200 или изменить на другой')
     content = models.TextField(max_length=1000, blank=True, verbose_name='Описание')
     category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name='Категория')
     size = models.ManyToManyField(Size, verbose_name='Размеры')
@@ -104,6 +107,7 @@ class Shoes(models.Model):
     # favorites = models.ForeignKey(Favorites,on_delete=models.SET_NULL, null=True )
     # rating =
     url = models.SlugField(max_length=150, unique=True)
+    # promotions = models.CharField(max_length=20, verbose_name='Акции') добавить позже
 
     def __str__(self):
         return self.title
