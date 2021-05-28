@@ -1271,7 +1271,7 @@ a.dec.qtybutton {padding-top: 3px;}
 }
 .testimonials {
   background-attachment: fixed !important;
-  background-image: url("img/testimonial/1.jpg");
+  background-image: url("img/grey-textured-surface.jpg");
   background-size: cover !important;
   margin-top: 90px;
 }
@@ -1519,7 +1519,7 @@ hr.dubble-border {margin: 0;}
 [ 3. home version two ]
 ---------------------------------------*/
 #new-products .col-md-4 {
-  width: 100%;
+  width: 140%;
 }
 .re-new-product .single-product .product-img{
   float: left;
