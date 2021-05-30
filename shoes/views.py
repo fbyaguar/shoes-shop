@@ -19,12 +19,14 @@ class Home(ListView):
     #     return Shoes.objects.filter(tags__name=self.kwargs['slug'])
 
 class ShoesDetailview(DetailView):
-    template_name = 'shoes/index.html'
+    template_name = 'shoes/single.html'
     model = Shoes
-    context_object_name = 'shoes'
+    context_object_name = 'shoes_id'
 
-    def get_queryset(self, *args, **kwargs):
-        return Shoes.objects.get(id=self.kwargs['pk'])
+    # def get_queryset(self, *args, **kwargs):
+    #     return Shoes.objects.get(pk=self.kwargs['pk'])
+
+
 # Create your views here.
 
 

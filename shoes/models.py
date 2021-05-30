@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -93,6 +93,7 @@ class Shoes(models.Model):
     created = models.DateTimeField(auto_now_add=True,verbose_name='Дата создания')
     updated = models.DateTimeField(auto_now=True,verbose_name='Дата обновления')
     photo = models.ImageField(upload_to='photos/%Y/%M/%D', blank=True, verbose_name='Фото',help_text='размер фото 200X200 или изменить на другой')
+    # short_content = models.TextField(max_length=200, blank=True, verbose_name='Короткое описание')
     content = models.TextField(max_length=1000, blank=True, verbose_name='Описание')
     category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name='Категория')
     size = models.ManyToManyField(Size, verbose_name='Размеры')
@@ -112,11 +113,16 @@ class Shoes(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return reverse('ShoesDetailview', kwargs={"pk": self.pk})
 
     class Meta:
         verbose_name = 'Обувь'
         verbose_name_plural = 'Обувь'
         ordering = ['-created']
+
+
+
 
 
 
