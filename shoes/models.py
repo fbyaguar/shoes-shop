@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Count
 from django.urls import reverse
 
 
@@ -85,15 +86,26 @@ class Material(models.Model):
         verbose_name_plural = 'Материалы'
 
 
+#
+# def size_count():
+#         numbers = Shoes.objects.annotate(count_size=Count('size'))
+#
+#         if number == None:
+#             return 0
+#         else:
+#             return number
+
 
 
 class Shoes(models.Model):
+
+
     title = models.CharField(max_length=150, verbose_name='Наименование')
     price = models.PositiveSmallIntegerField(default=0,verbose_name='Цена')
     created = models.DateTimeField(auto_now_add=True,verbose_name='Дата создания')
     updated = models.DateTimeField(auto_now=True,verbose_name='Дата обновления')
-    photo = models.ImageField(upload_to='photos/%Y/%M/%D', blank=True, verbose_name='Фото',help_text='размер фото 200X200 или изменить на другой')
-    # short_content = models.TextField(max_length=200, blank=True, verbose_name='Короткое описание')
+    photo = models.ImageField(upload_to='photos/%Y/%M/%D', verbose_name='Фото',help_text='размер фото 1024X768')
+
     content = models.TextField(max_length=1000, blank=True, verbose_name='Описание')
     category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name='Категория')
     size = models.ManyToManyField(Size, verbose_name='Размеры')
@@ -102,7 +114,7 @@ class Shoes(models.Model):
     brand = models.ForeignKey(Brand,on_delete=models.PROTECT, verbose_name='Производитель')
     country = models.ForeignKey(Country,on_delete=models.PROTECT, verbose_name='Страна')
     material = models.ForeignKey(Material, on_delete=models.SET_NULL, null=True, verbose_name='Материал',blank=True)
-    in_stock = models.PositiveSmallIntegerField(default=0,verbose_name='Количество товара в наличии')
+   # in_stock = models.PositiveSmallIntegerField(default=0,verbose_name='Количество товара в наличии')          будем считать отдельно
    #views = models.ForeignKey(Views,on_delete=models.SET_NULL, null=True)
     views = models.PositiveBigIntegerField(default=0, verbose_name='Количество просмотров')
     # favorites = models.ForeignKey(Favorites,on_delete=models.SET_NULL, null=True )
@@ -114,15 +126,23 @@ class Shoes(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('ShoesDetailview', kwargs={"pk": self.pk})
+        return reverse('ShoesDetailview', kwargs={"slug": self.url})
 
     class Meta:
         verbose_name = 'Обувь'
         verbose_name_plural = 'Обувь'
         ordering = ['-created']
 
-
-
+    # @property
+    # def size_count(self):
+    #     numbers = Shoes.objects.annotate(count_size=Count('size'))
+    #     for number in numbers:
+    #         if number.pk == self.pk:
+    #
+    #             if number.count_size == None:
+    #                 return 0
+    #             else:
+    #                 return number.count_size
 
 
 

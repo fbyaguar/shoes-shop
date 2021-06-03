@@ -9,7 +9,7 @@ class ShoesAdmin(admin.ModelAdmin):
     list_filter = ('category','sex','brand')
     search_fields = ('title','price')
     readonly_fields = ('views',)
-
+    prepopulated_fields = {'url': ('title',)}
 
 # Register your models here.
 admin.site.register(Shoes, ShoesAdmin)

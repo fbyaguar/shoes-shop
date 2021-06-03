@@ -22,6 +22,7 @@ class ShoesDetailview(DetailView):
     template_name = 'shoes/single.html'
     model = Shoes
     context_object_name = 'shoes_id'
+    slug_field = 'url'
 
     # def get_queryset(self, *args, **kwargs):
     #     return Shoes.objects.get(pk=self.kwargs['pk'])

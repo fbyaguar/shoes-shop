@@ -92,12 +92,13 @@
                                         <div class="pro-type">
                                             <span>Акция</span>
                                         </div>
-                                        <a href="#">
+                                        <a href="{{ item.get_absolute_url}}">
                                             <img src="{{ item.photo.url }}" alt="Изображение обуви" />
                                         </a>
                                     </div>
                                     <div class="product-dsc">
-                                        <h3><a href="{% url 'ShoesDetailview' item.pk %}">{{ item.title }}</a></h3>
+{#                                        <h3><a href="{% url 'ShoesDetailview' item.url %}">{{ item.title }}</a></h3>#}
+                                            <h3><a href="{{ item.get_absolute_url}}">{{ item.title }}</a></h3>
                                         <div class="star-price">
                                             <span class="price-left">{{ item.price }} грн</span>
                                             <span class="star-right">
