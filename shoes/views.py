@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView,CreateView
 from django.core.paginator import Paginator
 from shoesiki import settings
-from shoes.models import *
+from shoes.models import Shoes
 
 class Home(ListView):
     template_name = 'shoes/index.html'

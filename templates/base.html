@@ -63,11 +63,11 @@
 						<div class="col-md-6 col-sm-8">
 							<div class="right-header">
 								<ul>
-									<li><a href="my-account.html"><i class="fa fa-user"></i>Профиль</a></li>
+									<li><a href="{% url 'admin:index' %}"><i class="fa fa-user"></i>Профиль</a></li>
 									<li><a href="cart.html"><i class="fa fa-shopping-cart"></i>Корзина</a></li>
 									<li><a href="wishlist.html"><i class="fa fa-heart"></i>Список желаний</a></li>
-                                    <li><a href="login.html"><i class="fa fa-lock"></i>Логин</a></li>
-                                    <li><a href="login.html"><i class="fa fa-lock"></i>Регистрация</a></li>
+                                    <li><a href="{% url 'login' %}"><i class="fa fa-lock"></i>Логин</a></li>
+                                    <li><a href="{% url 'registration' %}"><i class="fa fa-lock"></i>Регистрация</a></li>
 								</ul>
 							</div>
 						</div>
