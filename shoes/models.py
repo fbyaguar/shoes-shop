@@ -75,18 +75,6 @@ class Country(models.Model):
         verbose_name_plural = 'Страны'
 
 
-
-class Material(models.Model):
-    top = models.CharField(max_length=50, verbose_name='Верх', blank=True)
-    sole = models.CharField(max_length=50, verbose_name='Подошва', blank=True)
-    strap = models.CharField(max_length=50, verbose_name='Ремешок', blank=True)
-    lining = models.CharField(max_length=50, verbose_name='Подкладка', blank=True)
-
-    class Meta:
-        verbose_name = 'Материал'
-        verbose_name_plural = 'Материалы'
-
-
 class Shoes(models.Model):
     title = models.CharField(max_length=150, verbose_name='Наименование')
     price = models.PositiveSmallIntegerField(default=0,verbose_name='Цена')
@@ -99,7 +87,7 @@ class Shoes(models.Model):
     sex = models.BooleanField(default=False, help_text='1 - мальчик, 0 - девочка', verbose_name='Пол')
     brand = models.ForeignKey(Brand,on_delete=models.PROTECT, verbose_name='Производитель')
     country = models.ForeignKey(Country,on_delete=models.PROTECT, verbose_name='Страна')
-    material = models.ForeignKey(Material, on_delete=models.SET_NULL, null=True, verbose_name='Материал',blank=True)
+   # material = models.ForeignKey(Material, on_delete=models.SET_NULL, null=True, verbose_name='Материал',blank=True)
    # in_stock = models.PositiveSmallIntegerField(default=0,verbose_name='Количество товара в наличии')          будем считать отдельно
    #views = models.ForeignKey(Views,on_delete=models.SET_NULL, null=True)
     views = models.PositiveBigIntegerField(default=0, verbose_name='Количество просмотров')
@@ -119,6 +107,20 @@ class Shoes(models.Model):
         verbose_name_plural = 'Обувь'
         ordering = ['-created']
 
+
+class Material(models.Model):
+    shoes = models.ForeignKey(Shoes, on_delete=models.CASCADE, verbose_name='ID товара')
+    top = models.CharField(max_length=50, verbose_name='Верх', blank=True)
+    sole = models.CharField(max_length=50, verbose_name='Подошва', blank=True)
+    strap = models.CharField(max_length=50, verbose_name='Ремешок', blank=True)
+    lining = models.CharField(max_length=50, verbose_name='Подкладка', blank=True)
+
+    class Meta:
+        verbose_name = 'Материал'
+        verbose_name_plural = 'Материалы'
+
+    def __str__(self):
+        return self.shoes
 
 
 class Shoes_Images(models.Model):
