@@ -120,7 +120,7 @@ class Material(models.Model):
         verbose_name_plural = 'Материалы'
 
     def __str__(self):
-        return self.shoes
+        return str(self.shoes)
 
 
 class Shoes_Images(models.Model):
@@ -130,7 +130,7 @@ class Shoes_Images(models.Model):
     updated = models.DateTimeField(auto_now=True, verbose_name='Дата обновления')
 
     def __str__(self):
-        return self.shoes
+        return str(self.shoes)
 
     class Meta:
         verbose_name = 'фотография'
@@ -156,7 +156,7 @@ class Rating(models.Model):
     value = models.PositiveSmallIntegerField(default=0,verbose_name='Оценка')
 
     def __str__(self):
-        return self.shoes
+        return str(self.shoes)
 
     class Meta:
         verbose_name = 'Рейтинг'

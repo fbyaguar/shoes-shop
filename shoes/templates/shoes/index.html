@@ -93,7 +93,7 @@
                                             <span>Акция</span>
                                         </div>
                                         <a href="{{ item.get_absolute_url}}">
-                                            <img src="{{ item.photo.url }}" alt="Изображение обуви" />
+                                            <img src="{{ item.shoes_images_set.first.image.url}}" alt="Изображение обуви" />
                                         </a>
                                     </div>
                                     <div class="product-dsc">
@@ -136,15 +136,14 @@
                 <div class="container">
                     <div class="row">
 
-
                                 <div class="col-md-4 col-sm-12 col-xs-12">
                                     <div class="sale-curosel1">
                                         <div class="product-img">
                                            <div class="pro-type">
                                                 <span>распродажа</span>
                                             </div>
-                                            <a href="#">
-                                                <img alt="фото товара" src="{{ first.photo.url }}">
+                                            <a href="{{ first.get_absolute_url }}">
+                                                <img alt="фото товара" src="{{ first.shoes_images_set.first.image.url}}">
                                             </a>
                                         </div>
                                     </div>
@@ -152,7 +151,7 @@
                                 <div class="col-md-6 col-sm-12 col-xs-12">
                                     <div class="product-content">
                                         <div class="re-text">
-                                            <h5><a href="#">{{ first.title }}</a></h5>
+                                            <h5><a href="{{ first.get_absolute_url }}">{{ first.title }}</a></h5>
                                         </div>
                                         <div class="pro-rating">
                                             <a href="#"><i class="fa fa-star"></i></a>
@@ -198,13 +197,13 @@
                           <div class="col-md-4">
                             <div class="single-product">
                                 <div class="product-img">
-                                    <a href="#">
-                                        <img src="{{ item.photo.url}}" alt="Product Title" />
+                                    <a href="{{ item.get_absolute_url }}">
+                                        <img src="{{ item.shoes_images_set.first.image.url}}" alt="Product Title" />
 
                                     </a>
                                 </div>
                                 <div class="product-dsc">
-                                    <h3><a href="#">{{ item.title }}</a></h3>
+                                    <h3><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></h3>
                                     <div class="star-price">
                                         <span class="price-left">{{ item.price }}</span>
                                         <span class="star-right">
