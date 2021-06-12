@@ -1,6 +1,7 @@
 from django.contrib.auth import logout, login
 from django.shortcuts import render, redirect
 from django.views.generic import ListView
+import shoes
 
 from user.forms import Registration_form, User_login_form
 from django.contrib import messages
@@ -29,7 +30,7 @@ def user_login(request):
             user = form.get_user()
             login(request,user)
             messages.info(request, 'Успешная авторизация')
-            return redirect('shoes:home')
+            return redirect('home')
         else:
             messages.error(request, 'Ошибка авторизации')
 

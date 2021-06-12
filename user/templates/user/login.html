@@ -35,20 +35,23 @@
                                     Sign In With Twitter
                                 </a>
                             </div>
-                            <form action="#">
+                            <form method="post">
+                                {% csrf_token %}
                                 <p class="checkout-coupon top log a-an">
                                     <label class="l-contact">
-                                        Email Address
+                                        Ваш логин
                                         <em>*</em>
                                     </label>
-                                    <input type="email">
+                                    {{ form.username }}
+{#                                    <input type="email">#}
                                 </p>
                                 <p class="checkout-coupon top-down log a-an">
                                     <label class="l-contact">
-                                        Password
+                                        Пароль
                                         <em>*</em>
                                     </label>
-                                    <input type="password">
+                                    {{ form.password }}
+{#                                    <input type="password">#}
                                 </p>
                                 <div class="forgot-password1">
                                     <label class="inline2">
@@ -58,7 +61,7 @@
                                     <a class="forgot-password" href="#">Forgot Your password?</a>
                                 </div>
                                 <p class="login-submit5">
-                                    <input class="button-primary" type="submit" value="login">
+                                    <input class="button-primary" type="submit" value="Авторизация">
                                 </p>
                             </form>
                         </div>

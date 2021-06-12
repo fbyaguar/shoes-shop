@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% load shoes_tags %}
 {% block content %}
         <!-- header section end -->
         <!-- pages-title-start -->
@@ -155,11 +155,7 @@
 
 
                              <span class="star-right" style="font-size: 30px; margin-left: 80px"> Рейтинг:
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-half-o"></i>
+                                               {% get_rating_detail shoes_id.pk %}
                                             </span>
 
 
