@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Shoes, Category, Size, Season, Brand, Commentary, Country, Material, Rating, Shoes_Images
+from .models import Shoes, Category, Size, Season, Brand, Commentary, Country, Material, Shoes_Images
 
 
 class ShoesImages(admin.StackedInline):
@@ -18,7 +18,7 @@ class ShoesAdmin(admin.ModelAdmin):
     list_filter = ('category','sex','brand')
     search_fields = ('title','price')
     readonly_fields = ('views',)
-    prepopulated_fields = {'url': ('title',)}
+    prepopulated_fields = {'slug': ('title',)}
     inlines = [ ShoesImages, ShoesMaterial,]
 
 
@@ -53,13 +53,13 @@ class CountryAdmin(admin.ModelAdmin):
 
 
 class CommentaryAdmin(admin.ModelAdmin):
-    list_display = ['shoes', 'user_id', 'parent', 'title', 'text']
-    list_display_links = ('title',)
+    list_display = ['user', 'text', 'shoes', 'parent',  'value']
+    list_display_links = ('user',)
 
 
-class RatingAdmin(admin.ModelAdmin):
-  list_display = ['shoes', 'user_id', 'value']
-  list_display_links = ('shoes',)
+# class RatingAdmin(admin.ModelAdmin):
+#   list_display = ['shoes', 'user_id', 'value']
+#   list_display_links = ('shoes',)
 # class MaterialAdmin(admin.ModelAdmin):
 #   list_display = ['top', 'sole', 'strap', 'lining']
 #   list_display_links = ('title',)
@@ -73,6 +73,6 @@ admin.site.register(Season, SeasonAdmin)
 admin.site.register(Brand, BrandAdmin)
 admin.site.register(Country, CountryAdmin)
 admin.site.register(Commentary, CommentaryAdmin)
-admin.site.register(Rating, RatingAdmin )
+#admin.site.register(Rating, RatingAdmin )
 #admin.site.register(Shoes_Images)
 #admin.site.register(Material)

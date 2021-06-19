@@ -93,14 +93,14 @@ class Shoes(models.Model):
     views = models.PositiveBigIntegerField(default=0, verbose_name='Количество просмотров')
     # favorites = models.ForeignKey(Favorites,on_delete=models.SET_NULL, null=True )
     # rating =
-    url = models.SlugField(max_length=150, unique=True)
+    slug = models.SlugField(max_length=150, unique=True)
     # promotions = models.CharField(max_length=20, verbose_name='Акции') добавить позже
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('ShoesDetailview', kwargs={"slug": self.url})
+        return reverse('ShoesDetailview', kwargs={"slug": self.slug})
 
     class Meta:
         verbose_name = 'Обувь'
@@ -138,29 +138,18 @@ class Shoes_Images(models.Model):
 
 class Commentary(models.Model):
     shoes = models.ForeignKey(Shoes, on_delete=models.CASCADE, verbose_name='ID товара')
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='ID пользователя')
-    parent = models.ForeignKey('self', on_delete=models.CASCADE, verbose_name='ID комментария родителя', blank=True)
-    title = models.CharField(max_length=150, verbose_name='Название комментария')
-    text = models.TextField(max_length=1000, verbose_name='Комментарий')
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='ID пользователя')
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, verbose_name='ID родителя отзыва', default='None', blank=True, null=True)
+    text = models.TextField(max_length=1000, verbose_name='Комментарий', blank=True)
+    value = models.PositiveSmallIntegerField(default=0,verbose_name='Оценка', blank=True)
     def __str__(self):
-        return self.title
+        return 'пользователь: ' + str(self.user_id)#+ ', отзыв: ' + self.text[20] + ', оценка: ' + str(self.value)
 
     class Meta:
-        verbose_name = 'Комментарий'
-        verbose_name_plural = 'Комментарии'
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'
 
-class Rating(models.Model):
-    shoes = models.ForeignKey(Shoes,on_delete=models.CASCADE, verbose_name='ID товара')
-    user_id = models.ForeignKey(User,on_delete=models.CASCADE, verbose_name='ID пользователя')
-    value = models.PositiveSmallIntegerField(default=0,verbose_name='Оценка')
 
-    def __str__(self):
-        return str(self.shoes)
-
-    class Meta:
-        verbose_name = 'Рейтинг'
-        verbose_name_plural = 'Рейтинги'
 
 
 
