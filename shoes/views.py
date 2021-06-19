@@ -1,9 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView,CreateView
 from django.core.paginator import Paginator
 from shoesiki import settings
 from shoes.models import Shoes, Rating
 import statistics
+from shoes.forms import Get_rating, Get_commentary
+from django.contrib import messages
+
+
 
 class Home(ListView):
     template_name = 'shoes/index.html'
@@ -30,4 +34,18 @@ class ShoesDetailview(DetailView):
 
 # Create your views here.
 
+def rating(request):
+    if request.method == 'POST':
+        form = Get_rating(request.POST)
 
+        if form.is_valid():
+            rating = form.save()
+            messages.info(request, 'Спасибо за оценку')
+         #   News.objects.create(**form.cleaned_data)    для не связанной с моделью формы
+            return redirect(rating)
+        else:
+            messages.error(request, 'Не удалось поставить оценку')
+    else:
+        form = Get_rating()
+    user = request.user.username
+    return render(request, 'shoes/single.html', { 'user': user, "rating_form": form})

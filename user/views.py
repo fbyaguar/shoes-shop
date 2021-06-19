@@ -16,7 +16,7 @@ def registration(request):
             user = form.save()
             login(request,user)
             messages.info(request,'Спасибо за регистрацию')
-            return redirect('shoes:home')
+            return redirect('home')
         else:
             messages.error(request, 'Ошибка регистрации')
     else:
