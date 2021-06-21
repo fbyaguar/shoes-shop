@@ -1,6 +1,6 @@
 <span class="star-right">
 
-        {{ avg_rating }}
+        {{ avg_rating|floatformat }}
         {% if avg_rating >= 0 and avg_rating < 0.4 %}
             <i class="fa fa-star-o"></i>
             <i class="fa fa-star-o"></i>

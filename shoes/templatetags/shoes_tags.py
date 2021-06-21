@@ -22,6 +22,13 @@ def get_rating(shoes_pk):
     return ({'size': size,'avg_rating': avg_rating })
 
 
+@register.inclusion_tag('shoes/rating.html')
+def get_single_rating(rating):
+    return ({'size': 0,'avg_rating': rating  })
+
+
+
+
 @register.inclusion_tag('shoes/rating_detail.html')
 def get_rating_detail(shoes_pk):
     shoes_rating = Commentary.objects.filter(shoes = shoes_pk)

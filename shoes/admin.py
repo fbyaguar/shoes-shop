@@ -53,7 +53,7 @@ class CountryAdmin(admin.ModelAdmin):
 
 
 class CommentaryAdmin(admin.ModelAdmin):
-    list_display = ['user', 'text', 'shoes', 'parent',  'value']
+    list_display = ['user', 'text', 'shoes','value']
     list_display_links = ('user',)
 
 

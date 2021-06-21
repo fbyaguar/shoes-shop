@@ -4,10 +4,10 @@ from shoes.models import Commentary
 class Get_commentary(forms.ModelForm):
     class Meta:
         model = Commentary
-        fields = ['shoes','user', 'parent', 'text', 'value']
-        widgets = {'shoes': forms.TextInput(attrs={'class': 'form-control'}),
-                   'user': forms.TextInput(attrs={'class': 'form-control'}),
-                   'parent': forms.Select(attrs={'class': 'form-control'}),
+        fields = ['shoes', 'user', 'text', 'value']
+        widgets = {'shoes': forms.Select(attrs={'class': 'form-control'}),
+                   'user': forms.Select(attrs={'class': 'form-control'}),
+                 #  'parent': forms.Select(attrs={'class': 'form-control'}),
                    'text': forms.Textarea(attrs={'class': 'form-control'}),
                    'value': forms.TextInput(attrs={'class': 'form-control'})
                    }

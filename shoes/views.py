@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView,CreateView
 from django.core.paginator import Paginator
 from shoesiki import settings
-from shoes.models import Shoes
+from shoes.models import Shoes, Commentary
 import statistics
 from shoes.forms import  Get_commentary
 from django.contrib import messages
@@ -38,25 +38,32 @@ class Home(ListView):
 def review(request, slug):
     shoes = Shoes.objects.get(slug=slug)
     user = request.user
+    id = shoes.id
+    comments = Commentary.objects.filter(shoes_id=id)
+    comment_exists = comments.get(user=user)
     if request.method == 'POST':
         form = Get_commentary(request.POST)
-        # form.fields['value'] =str(1) # form.cleaned_data['rating']
-        # form.fields['shoes'] = shoes.id
-       # print (form.is_valid())
         if form.is_valid():
-
-            review = form.save(commit=False)
-            review.value = request.POST['rating']
-            review.save()
-            messages.info(request, 'Спасибо за оценку')
-            return redirect('home')
-         #   News.objects.create(**form.cleaned_data)    для не связанной с моделью формы
-           # return redirect(review)
+            if comment_exists:
+                comment_exists.text = form.cleaned_data['text']
+                comment_exists.value = request.POST['rating']
+                comment_exists.save()
+                messages.info(request, 'Отзыв обновлен')
+            else:
+                review = form.save(commit=False)
+                review.value = request.POST['rating']
+                review.save()
+                messages.info(request, 'Спасибо за отзыв')
+                return redirect('home')
         else:
-            #form.errors.
-            messages.error(request, 'Не удалось поставить оценку')
+            messages.error(request, 'Не удалось добавить отзыв')
     else :
-        form = Get_commentary(initial={'user': user, 'shoes':shoes, 'parent': None})
+        if comment_exists:
+            print(str(comment_exists.user)+ '  ' + comment_exists.text +'  ' + str(comment_exists.value))
+            form = Get_commentary(initial={'shoes':shoes,'user':user,'text':comment_exists.text,'value':comment_exists.value})
+        else:
+            form = Get_commentary(initial={'user': user, 'shoes':shoes})
         messages.info(request, 'Просто просмотр')
 
-    return render(request, 'shoes/single.html', { 'user': user, "form": form, 'shoes_id': shoes})
+
+    return render(request, 'shoes/single.html', { 'user': user, "form": form, 'shoes_id': shoes, 'comments':comments, 'value':int(comment_exists.value)})

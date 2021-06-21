@@ -139,9 +139,10 @@ class Shoes_Images(models.Model):
 class Commentary(models.Model):
     shoes = models.ForeignKey(Shoes, on_delete=models.CASCADE, verbose_name='ID товара')
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='ID пользователя')
-    parent = models.ForeignKey('self', on_delete=models.CASCADE, verbose_name='ID родителя отзыва', default='None', blank=True, null=True)
+   # parent = models.ForeignKey('self', on_delete=models.CASCADE, verbose_name='ID родителя отзыва', default='None', blank=True, null=True)
     text = models.TextField(max_length=1000, verbose_name='Комментарий', blank=True)
     value = models.PositiveSmallIntegerField(default=0,verbose_name='Оценка', blank=True)
+    date =  models.DateTimeField(auto_now=True, verbose_name='Дата создания или обновления')
     def __str__(self):
         return 'пользователь: ' + str(self.user_id)#+ ', отзыв: ' + self.text[20] + ', оценка: ' + str(self.value)
 
@@ -149,7 +150,17 @@ class Commentary(models.Model):
         verbose_name = 'Отзыв'
         verbose_name_plural = 'Отзывы'
 
+class Answer(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='ID пользователя')
+    commentary = models.ForeignKey(Commentary, on_delete=models.CASCADE, verbose_name='ID родителя отзыва')
+    text = models.TextField(max_length=1000, verbose_name='Комментарий', blank=True)
+    date =  models.DateTimeField(auto_now=True, verbose_name='Дата создания или обновления')
+    def __str__(self):
+        return 'пользователь: ' + str(self.user_id)+ ', отзыв: ' + self.text[10]
 
+    class Meta:
+        verbose_name = 'Ответ'
+        verbose_name_plural = 'Ответы'
 
 
 
