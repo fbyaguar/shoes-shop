@@ -131,7 +131,7 @@
                                             <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Характеристики</a>
                                         </li>
                                         <li role="presentation">
-                                            <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Отзывы: {{ comments|length }}</a>
+                                            <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Отзывы: {{ non_empty_comments|length }}</a>
                                         </li>
                                     </ul>
                                     <!-- Tab panes -->
@@ -164,9 +164,23 @@
                                         </div>
                                         <div role="tabpanel" class="tab-pane" id="profile">
                                             <div class="form-horizontal">
+                                                {% if request.user.is_authenticated %}
 
-                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Оставить отзыв или оценку </button>
-
+                                                    {% if value != None %}
+                                                        <button type="button" class="btn btn-primary"
+                                                                data-toggle="modal" data-target="#myModal">Редактировать
+                                                            отзыв или оценку
+                                                        </button>
+                                                    {% else %}
+                                                        <button type="button" class="btn btn-primary"
+                                                                data-toggle="modal" data-target="#myModal">Оставить
+                                                            отзыв или оценку
+                                                        </button>
+                                                    {% endif %}
+                                                {% else %}
+                                                    <p>Оставлять отзывы могут только зарегистрированные пользователи. Вы
+                                                        можете задать вопрос нам на почту fbyaguar@ukr.net </p>
+                                                {% endif %}
 
                                                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
@@ -341,8 +355,12 @@
                                                     </div>
                                                 </div>
 
-
-                                 {% for comment in comments %}
+                                    {% if comments.count == 0 %}
+                                        <hr>
+                                        <p>Этот товар еще никто не комментировал</p>
+                                            {% endif %}
+                                 {% for comment in non_empty_comments %}
+{#                                     {% if comment.text|length > 0 %}#}
                                                 <div id="review">
                                                     <table class="table table-striped table-bordered">
                                                         <tr>
@@ -354,32 +372,13 @@
                                                         <tr>
                                                             <td colspan="2">
                                                                 <p class="text an-text">{{ comment.text }}</p>
-
                                                                {% get_single_rating comment.value %}
-
-{#                                                                <span class="fa fa-stack">#}
-{#                                                                    <i class="fa fa-star fa-stack-2x"></i>#}
-{#                                                                    <i class="fa fa-star-o fa-stack-2x"></i>#}
-{#                                                                </span>#}
-{#                                                                <span class="fa fa-stack">#}
-{#                                                                    <i class="fa fa-star fa-stack-2x"></i>#}
-{#                                                                    <i class="fa fa-star-o fa-stack-2x"></i>#}
-{#                                                                </span>#}
-{#                                                                <span class="fa fa-stack">#}
-{#                                                                    <i class="fa fa-star-o fa-stack-2x"></i>#}
-{#                                                                </span>#}
-{#                                                                <span class="fa fa-stack">#}
-{#                                                                    <i class="fa fa-star-o fa-stack-2x"></i>#}
-{#                                                                </span>#}
-{#                                                                <span class="fa fa-stack">#}
-{#                                                                    <i class="fa fa-star-o fa-stack-2x"></i>#}
-{#                                                                </span>#}
                                                             </td>
-
                                                         </tr>
                                                     </table>
                                                     <div class="text-right"></div>
                                                 </div>
+{#                                     {% endif %}#}
                                     {% endfor %}
 
                                         </div>
@@ -388,6 +387,7 @@
                             </div>
                         </div>
                     </div>
+                     </div>
                     <div class="col-md-3">
                         <div class="single-sidebar">
                             <div class="single-sidebar an-shop">
@@ -431,8 +431,9 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+
+
+                </div> </div>
         </section>
         <!-- quick view start -->
 		<div class="quick-view modal fade in" id="quick-view">

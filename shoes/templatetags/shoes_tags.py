@@ -8,7 +8,7 @@ register = template.Library()
 
 @register.inclusion_tag('shoes/rating.html')
 def get_rating(shoes_pk):
-    shoes_rating = Commentary.objects.filter(shoes = shoes_pk)
+    shoes_rating = Commentary.objects.filter(shoes = shoes_pk).filter(value__gt=0)
     sum = 0
     size = len(shoes_rating)
     if size == 0:
@@ -31,7 +31,8 @@ def get_single_rating(rating):
 
 @register.inclusion_tag('shoes/rating_detail.html')
 def get_rating_detail(shoes_pk):
-    shoes_rating = Commentary.objects.filter(shoes = shoes_pk)
+    shoes_rating = Commentary.objects.filter(shoes = shoes_pk).filter(value__gt=0)
+   # shoes_rating = shoes_rating_.filter()
     sum = 0
     size = len(shoes_rating)
     if size == 0:

@@ -56,14 +56,11 @@ class CommentaryAdmin(admin.ModelAdmin):
     list_display = ['user', 'text', 'shoes','value']
     list_display_links = ('user',)
 
+    # def has_add_permission(self, request):
+    #     return False
 
-# class RatingAdmin(admin.ModelAdmin):
-#   list_display = ['shoes', 'user_id', 'value']
-#   list_display_links = ('shoes',)
-# class MaterialAdmin(admin.ModelAdmin):
-#   list_display = ['top', 'sole', 'strap', 'lining']
-#   list_display_links = ('title',)
-#   prepopulated_fields = {'url': ('title',)}
+
+
 
 # Register your models here.
 admin.site.register(Shoes, ShoesAdmin)
@@ -73,6 +70,4 @@ admin.site.register(Season, SeasonAdmin)
 admin.site.register(Brand, BrandAdmin)
 admin.site.register(Country, CountryAdmin)
 admin.site.register(Commentary, CommentaryAdmin)
-#admin.site.register(Rating, RatingAdmin )
-#admin.site.register(Shoes_Images)
-#admin.site.register(Material)
+
