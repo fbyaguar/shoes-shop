@@ -92,7 +92,7 @@ class Shoes(models.Model):
    #views = models.ForeignKey(Views,on_delete=models.SET_NULL, null=True)
     views = models.PositiveBigIntegerField(default=0, verbose_name='Количество просмотров')
     # favorites = models.ForeignKey(Favorites,on_delete=models.SET_NULL, null=True )
-    # rating =
+    rating = models.PositiveSmallIntegerField(default=0,verbose_name='Рейтинг')
     slug = models.SlugField(max_length=150, unique=True)
     # promotions = models.CharField(max_length=20, verbose_name='Акции') добавить позже
 
@@ -152,11 +152,11 @@ class Commentary(models.Model):
 
 class Answer(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='ID пользователя')
-    commentary = models.ForeignKey(Commentary, on_delete=models.CASCADE, verbose_name='ID родителя отзыва')
+    commentary = models.ForeignKey(Commentary, on_delete=models.CASCADE, verbose_name='ID родителя отзыва', blank=True, null=True)
     text = models.TextField(max_length=1000, verbose_name='Комментарий', blank=True)
     date =  models.DateTimeField(auto_now=True, verbose_name='Дата создания или обновления')
     def __str__(self):
-        return 'пользователь: ' + str(self.user_id)+ ', отзыв: ' + self.text[10]
+        return 'пользователь: ' + str(self.user_id)#+ ', отзыв: ' + self.text[10]
 
     class Meta:
         verbose_name = 'Ответ'

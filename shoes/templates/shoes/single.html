@@ -112,7 +112,7 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <div> Количетво просмотров:  {{ shoes_id.views }} </div>
 
                              <span class="star-right" style="font-size: 30px; margin-left: 80px"> Рейтинг:
                                                {% get_rating_detail shoes_id.pk %}
@@ -194,6 +194,8 @@
                                                                     title</h4>
                                                             </div>
                                                             <div class="modal-body">
+
+                                                             {% choise_form 0 %}
 
 <form method="post">
     {% csrf_token %}
@@ -373,13 +375,154 @@
                                                             <td colspan="2">
                                                                 <p class="text an-text">{{ comment.text }}</p>
                                                                {% get_single_rating comment.value %}
-                                                            </td>
+
+                                                                 <button type="button" class="btn btn-primary"
+                                                                data-toggle="modal" data-target="#ReplyReview" onclick="SaveReplyData('{{ comment.id }}', '{{ comment.text }}')" name="ReplyReviewbutton">Ответить</button>
+
+{#                                                                {% get_comment_text comment.text %}#}
+
+                                                              <div class="modal fade" id="ReplyReview" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                                <h4 class="modal-title" id="myModalLabel">Modal
+                                                                    title</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+
+                                                                {% choise_form 1 %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ form2.user }}
+{#    {{ form.shoes.as_hidden  }}#}
+
+
+
+
+
+                                            <h2 class="write">Write a review</h2>
+                                                <div class="form-group required">
+                                                    <div class="col-sm-12">
+                                                        <label class="control-label" for="input-user">Имя пользователя:</label>
+                                                       <input id="input-user" class="form-control" readonly type="text" value="{{ user }}" name="input-user">
+
+                                                        <p class="checkout-coupon top log a-an">
+
+                                                            <label class="control-label" for="input-shoes">Товар:</label>
+                                                       <input id="input-shoes" class="form-control" readonly type="text" value="{{ shoes_id.title}}" name="input-shoes">
+
+                                                        <p class="checkout-coupon top log a-an">
+                                                    </div>
+                                                </div>
+
+   <label class="control-label" >Комментарий:</label>
+     <input id="comment-username" class="form-control" readonly type="text" value="" name="comment-id">
+
+{#                                                        {{ form2.commentary }}#}
+    <input id="comment-text" class="form-control" readonly type="text" value="" name="comment-text">
+ <hr>
+ <label class="control-label" >Ответ:</label>
+                                                        {{ form2.text}}
+
+
+ <button type="submit">Отправка формы </button>
+</form>
+                                                                ...
+
+   </div>
+                                                            <div class="modal-footer">
+
+
+                                                                 <div class="buttons si-button">
+                                                    <div class="pull-right">
+                                                        <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Close
+                                                                </button>
+                                                        <button id="button-review" class="btn btn-primary" data-loading-text="Loading..." type="button">Отправить</button>
+                                                    </div>
+                                                </div>
+
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                                {% if comment.user == user  %}
+
+                                                                <a type="button" class="btn btn-primary"
+                                                                data-toggle="modal" data-target="#DeleteReview">Удалить</a>
+                                                                {% endif %}
+
+
+                                                                <div class="modal fade" id="DeleteReview" tabindex="-1"
+                                                                     role="dialog" aria-labelledby="DeleteReviewLabel"
+                                                                     aria-hidden="true">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <button type="button" class="close"
+                                                                                        data-dismiss="modal"
+                                                                                        aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                                <h4 class="modal-title"
+                                                                                    id="myModalLabel">Modal
+                                                                                    title</h4>
+                                                                            </div>
+                                                                            <div class="modal-body">
+
+                                                                            <h1>Вы действительно хотите удалить отзыв?</h1>
+                                                                                <form action="#" method="get">
+                                                                                    <input type="submit" class="btn" value="Удалить"  name="DeleteReviewButton">
+                                                                                     <input type="submit" class="btn" value="Отмена" data-dismiss="modal" name="CancelDelete">
+                                                                                </form>
+
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                   </td>
                                                         </tr>
                                                     </table>
+
+                                                                {% for answer in answers %}
+                                                                    {% if answer.commentary_id == comment.id %}
+
+                                                                        <div id="review" style="margin-left: 100px">
+                                                                            <table class="table table-striped table-bordered">
+                                                                                <tr>
+                                                                                    <td style="width: 50%;">
+                                                                                        <strong>{{ answer.user }}</strong>
+                                                                                    </td>
+                                                                                    <td class="text-right">{{ answer.date }}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td colspan="2">
+                                                                                        <p class="text an-text">{{ answer.text }}</p>
+                                                                                        {#                                                               {% get_single_rating comment.value %}#}
+
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div>
+
+                                                                    {% endif %}
+                                                                {% endfor %}
+
+
                                                     <div class="text-right"></div>
                                                 </div>
-{#                                     {% endif %}#}
-                                    {% endfor %}
+                                 {% endfor %}
 
                                         </div>
                                     </div>
@@ -690,5 +833,15 @@
 				</div>
 			</div>
 		</div>
+
+
+
+    <script>
+    function SaveReplyData(name,text) {
+        document.getElementById('comment-username').value = name
+        document.getElementById('comment-text').value = text
+    }
+
+    </script>
 		<!-- quick view end -->
 {% endblock %}
