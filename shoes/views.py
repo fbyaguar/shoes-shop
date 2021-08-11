@@ -10,7 +10,7 @@ import statistics
 from shoes.forms import  Get_commentary ,  Get_reply
 from django.contrib import messages
 from django.http import Http404
-from shoes.templatetags.shoes_tags import get_rating_for_views
+from shoes.templatetags.shoes_tags import get_rating_for_views, get_shoes_id_list_by_comments
 choise_f = 0
 average_rating = 0
 
@@ -25,10 +25,10 @@ class Home(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
         context['first'] = Shoes.objects.first()   # получение первого элемента списка обуви. Далее переделать на получение рандомной обуви
+        context["top_shoes_by_comments"] = get_shoes_id_list_by_comments  # топ 20 обуви по количеству комментариев
         return context
 
 
-# Create your views here.
 
 def review(request, slug):
     """ Функция-представление для страницы single.html """
@@ -57,29 +57,35 @@ def review(request, slug):
             comment_exists = comments.filter(user=user)
             comment_exists.delete()
     if request.method == 'POST':
-        if choise_f == 0:
-            form = Get_commentary(request.POST)
-            print('форма 1')
-            if form.is_valid():
-                if comment_exists:  # обновляем отзыв
-                    comment_exists.text = form.cleaned_data['text']
-                    comment_exists.value = request.POST['rating']
-                    comment_exists.save()
-             #       get_rating_for_views(id)
-                    messages.info(request, 'Отзыв обновлен')
-                    return HttpResponseRedirect(request.path_info)
+
+        try:
+            if  request.POST['rating']:       # проверяем существует ли ключ "рейтинг". Ловим ошибку, если его нет и обрабатываем форму для
+                                             # ответа. Если есть обрабатываем форму для отзыва.
+                form = Get_commentary(request.POST)
+                print('форма 1')
+                if form.is_valid():
+                    if comment_exists:  # обновляем отзыв
+                        comment_exists.text = form.cleaned_data['text']
+                        comment_exists.value = request.POST['rating']
+                        comment_exists.save()
+                        shoes.rating = get_rating_for_views(id)
+                        shoes.save()
+                        messages.info(request, 'Отзыв обновлен')
+                        return HttpResponseRedirect(request.path_info)
+                    else:
+                        review = form.save(commit=False)  # добавляем отзыв
+                        try:  # если оценку не оставили, она = 0
+                            review.value = request.POST['rating']
+                        except Exception:
+                            review.value = 0
+                        review.save()
+                        shoes.rating = get_rating_for_views(id)
+                        shoes.save()
+                        messages.info(request, 'Спасибо за отзыв')
+                        return HttpResponseRedirect(request.path_info)
                 else:
-                    review = form.save(commit=False)  # добавляем отзыв
-                    try:  # если оценку не оставили, она = 0
-                        review.value = request.POST['rating']
-                    except Exception:
-                        review.value = 0
-                    review.save()
-                    messages.info(request, 'Спасибо за отзыв')
-                    return HttpResponseRedirect(request.path_info)
-            else:
-                messages.error(request, 'Не удалось добавить отзыв')
-        elif choise_f == 1:
+                    messages.error(request, 'Не удалось добавить отзыв')
+        except KeyError:
             form = Get_reply(request.POST)
             print('форма 2')
             if form.is_valid():
@@ -95,7 +101,7 @@ def review(request, slug):
                 return HttpResponseRedirect(request.path_info)
             else:
                 messages.error(request, 'Не правильно заполнена форма 2')
-        else:
+        except Exception:
             print('Чет не то с формой')
     else:
         if (request.GET.get('DeleteReviewButton')):     # удаляем отзыв
@@ -104,22 +110,6 @@ def review(request, slug):
                     comment.delete()
             messages.info(request, 'Отзыв удален')
             return HttpResponseRedirect(request.path_info)
-
-        # if (request.GET.get('ReplyReviewbutton')):
-        #     commentary = get_comment_text
-        #     form = Get_reply(initial={'user': user, 'commentary': commentary})
-        #     messages.info(request, 'Просто просмотр')
-        #     print(str(comment_exists) + '  ' + str(user))
-        #     return render(request, 'shoes/single.html',
-        #                   {'user': user, "form": form, 'shoes_id': shoes, 'comments': comments,
-        #                    'non_empty_comments': non_empty_comments})
-
-        # if choise_f == 1:
-        #     print('форма 2 загружена')
-        #     form = Get_reply(
-        #     initial={ 'user': user})
-        #     return render(request, 'shoes/single.html',
-        #               {'user': user, "form": form, 'shoes_id': shoes,'comments': comments})
 
         if comment_exists:                               # создание формы для обновления отзыва
             messages.info(request, 'Просто просмотр 2')

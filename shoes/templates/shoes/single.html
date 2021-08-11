@@ -167,11 +167,13 @@
                                                 {% if request.user.is_authenticated %}
 
                                                     {% if value != None %}
+{#                                                        {% choise_form 0 %}#}
                                                         <button type="button" class="btn btn-primary"
                                                                 data-toggle="modal" data-target="#myModal">Редактировать
                                                             отзыв или оценку
                                                         </button>
                                                     {% else %}
+{#                                                        {% choise_form 0 %}#}
                                                         <button type="button" class="btn btn-primary"
                                                                 data-toggle="modal" data-target="#myModal">Оставить
                                                             отзыв или оценку
@@ -195,7 +197,7 @@
                                                             </div>
                                                             <div class="modal-body">
 
-                                                             {% choise_form 0 %}
+{#                                                             {% choise_form 0 %}#}
 
 <form method="post">
     {% csrf_token %}
@@ -394,7 +396,7 @@
                                                             </div>
                                                             <div class="modal-body">
 
-                                                                {% choise_form 1 %}
+
 
 <form method="post">
     {% csrf_token %}
@@ -429,7 +431,7 @@
  <label class="control-label" >Ответ:</label>
                                                         {{ form2.text}}
 
-
+{#      {% choise_form 1 %}#}
  <button type="submit">Отправка формы </button>
 </form>
                                                                 ...
