@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView,CreateView
 from django.core.paginator import Paginator
 from shoesiki import settings
-from shoes.models import Shoes, Commentary,Answer
+from shoes.models import Shoes, Commentary,Answer, Category, Brand, Country, Season
 import statistics
 from shoes.forms import  Get_commentary ,  Get_reply
 from django.contrib import messages
@@ -14,6 +14,21 @@ from shoes.templatetags.shoes_tags import get_rating_for_views, get_shoes_id_lis
 choise_f = 0
 average_rating = 0
 
+
+
+class Shop(ListView):
+    """ представление-класс для отображения обуви на странице "магазин" """
+    template_name = 'shoes/shop.html'
+    model = Shoes
+    context_object_name = 'shoes'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        context['categories'] = Category.objects.all()
+        context['brands'] = Brand.objects.all()
+        context['countries'] = Country.objects.all()
+        context['seasons'] = Season.objects.all()
+        return context
 
 
 class Home(ListView):

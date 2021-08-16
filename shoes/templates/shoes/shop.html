@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load shoes_tags %}
+
+{% block content %}
+        <!-- slider-section-start -->
+    <section class="contact-img-area" xmlns:float="http://www.w3.org/1999/xhtml">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <div class="con-text">
+                            <h2 class="page-title">Магазин</h2>
+                            <p><a href="#">На главную</a> | Еще какая-то ссылка</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+		<!-- quick view end -->
+        <!-- brand section start -->
+
+<div class="container-fluid" style="margin: 50px; display: block; padding-left: 30%;"  >
+    {#margin-left: auto;#}
+    {#margin-right: auto;  ">#}
+
+    <span style='float:left'>Категория:
+    {% for category in categories %}
+
+    <div class="form-check form-check-inline" style="padding: 5px; "  >
+  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+  <label class="form-check-label" for="inlineCheckbox1">{{ category.title }}</label>
+</div>
+
+    {% endfor %}
+</span>
+
+
+ <span style="float: left; padding-left: 50px;">Бренд:
+    {% for brand in brands %}
+
+    <div class="form-check form-check-inline" style="padding: 5px;"  >
+  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+  <label class="form-check-label" for="inlineCheckbox1">{{ brand.title }}</label>
+</div>
+
+    {% endfor %}
+</span>
+
+ <span style="float: left; padding-left: 50px;">Страна:
+    {% for country in countries %}
+
+    <div class="form-check form-check-inline" style="padding: 5px;"  >
+  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+  <label class="form-check-label" for="inlineCheckbox1">{{ country.title }}</label>
+</div>
+
+    {% endfor %}
+</span>
+
+ <span style="float: left; padding-left: 50px;">Сезон:
+    {% for season in seasons %}
+
+    <div class="form-check form-check-inline" style="padding: 5px;"  >
+  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+  <label class="form-check-label" for="inlineCheckbox1">{{ season.title }}</label>
+</div>
+
+    {% endfor %}
+</span>
+
+ <span style="float: left; padding-left: 50px;">Пол:
+
+    <div class="form-check form-check-inline" style="padding: 5px;"  >
+  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+  <label class="form-check-label" for="inlineCheckbox1">Для девочки</label>
+</div>
+         <div class="form-check form-check-inline" style="padding: 5px;"  >
+  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+  <label class="form-check-label" for="inlineCheckbox1">Для мальчика</label>
+</div>
+
+
+</span>
+
+
+
+<div class="row tab-content" style="float: right">
+<div class="col-sm-6">
+     {% for item in shoes %}
+                            <div class="col-xs-12 col-sm-6 col-lg-4">
+                               <div class="single-product">
+                                    <div class="product-img">
+                                        <div class="pro-type">
+                                            <span>Акция</span>
+                                        </div>
+                                        <a href="{{ item.get_absolute_url}}">
+                                            <img src="{{ item.shoes_images_set.first.image.url}}" alt="Изображение обуви" />
+                                        </a>
+                                    </div>
+                                    <div class="product-dsc">
+{#                                        <h3><a href="{% url 'ShoesDetailview' item.url %}">{{ item.title }}</a></h3>#}
+                                            <h3><a href="{{ item.get_absolute_url}}">{{ item.title }}</a></h3>
+                                        <div class="star-price">
+                                            <span class="price-left">{{ item.price }} грн</span>
+                                            {% get_rating item.pk %}
+                                        </div>
+                                    </div>
+                                   <div class="actions-btn">
+                                        <a href="#" data-placement="top" data-target="#quick-view" data-trigger="hover" data-toggle="modal" data-original-title="Quick View"><i class="fa fa-eye"></i></a>
+                                        <a data-placement="top" data-toggle="tooltip" href="#" data-original-title="Add To Wishlist"><i class="fa fa-heart"></i></a>
+                                        <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Compare"><i class="fa fa-retweet"></i></a>
+                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="fa fa-shopping-cart"></i></a>
+                                    </div>
+                                </div>
+							</div>
+
+
+                                {% endfor %}
+</div> </div>
+
+</div>
+
+
+
+
+{#<div class="form-check form-check-inline">#}
+{#  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">#}
+{#  <label class="form-check-label" for="inlineCheckbox2">2</label>#}
+{#</div>#}
+{#<div class="form-check form-check-inline">#}
+{#  <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" disabled>#}
+{#  <label class="form-check-label" for="inlineCheckbox3">3 (disabled)</label>#}
+{#</div>#}
+{#</div>#}
+
+
+
+
+
+
+       <section class="section-padding-top">
+           <div class="brand-logo">
+				<div class="barnd-bg">
+					<div class="container">
+						<div class="row text-center">
+							<div id="brand-logo" class="re-owl-carousel21 owl-carousel product-slider owl-theme">
+								<div class="col-xs-12">
+									<div class="single-brand">
+										<a href="#"><img src="{% static 'img/brand/1.png' %}" alt="" /></a>
+									</div>
+								</div>
+								<div class="col-xs-12">
+									<div class="single-brand">
+										<a href="#"><img src="{% static 'img/brand/2.png' %}" alt="" /></a>
+									</div>
+								</div>
+								<div class="col-xs-12">
+									<div class="single-brand">
+										<a href="#"><img src="{% static 'img/brand/3.png' %}" alt="" /></a>
+									</div>
+								</div>
+								<div class="col-xs-12">
+									<div class="single-brand">
+										<a href="#"><img src="{% static 'img/brand/5.png' %}" alt="" /></a>
+									</div>
+								</div>
+								<div class="col-xs-12">
+									<div class="single-brand">
+										<a href="#"><img src="{% static 'img/brand/6.png' %}" alt="" /></a>
+									</div>
+								</div>
+								<div class="col-xs-12">
+									<div class="single-brand">
+										<a href="#"><img src="{% static 'img/brand/7.png' %}" alt="" /></a>
+									</div>
+								</div>
+								<div class="col-xs-12">
+									<div class="single-brand">
+										<a href="#"><img src="{% static 'img/brand/8.png' %}" alt="" /></a>
+									</div>
+								</div>
+								<div class="col-xs-12">
+									<div class="single-brand">
+										<a href="#"><img src="{% static 'img/brand/9.png' %}" alt="" /></a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+       </section>
+       <!-- brand section end -->
+       <!-- service section start -->
+       <section class="re-section-padding">
+			<div class="service section-padding">
+				<div class="container">
+					<div class="row text-center">
+						<div class="col-xs-12 col-sm-4">
+							<div class="single-service">
+								<i class="pe-7s-plane"></i>
+								<h4>Free Shipping</h4>
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-4">
+							<div class="single-service res-single">
+								<i class="pe-7s-headphones"></i>
+								<h4>Customer Support</h4>
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-4">
+							<div class="single-service">
+								<i class="pe-7s-refresh"></i>
+								<h4>15 days money back</h4>
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+       </section>
+       <!-- service section end -->
+
+{% endblock %}
