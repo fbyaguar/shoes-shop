@@ -13,8 +13,18 @@ from django.http import Http404
 from shoes.templatetags.shoes_tags import get_rating_for_views, get_shoes_id_list_by_comments
 choise_f = 0
 average_rating = 0
+from shoes.filters import ShoesFilter
 
 
+class Search(ListView):
+
+    def get_queryset(self):
+        return Shoes.objects.filter(title__icontains=self.request.GET.get('s'))
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        context['s'] = self.request.GET.get('s')
+        return context
 
 class Shop(ListView):
     """ представление-класс для отображения обуви на странице "магазин" """
@@ -24,10 +34,11 @@ class Shop(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
-        context['categories'] = Category.objects.all()
-        context['brands'] = Brand.objects.all()
-        context['countries'] = Country.objects.all()
-        context['seasons'] = Season.objects.all()
+        # context['categories'] = Category.objects.all()
+        # context['brands'] = Brand.objects.all()
+        # context['countries'] = Country.objects.all()
+        # context['seasons'] = Season.objects.all()
+        context['filter'] = ShoesFilter(self.request.GET, queryset=self.get_queryset())
         return context
 
 

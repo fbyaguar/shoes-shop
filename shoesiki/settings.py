@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'user',
     'cart',
     'order',
+    'django_filters',
+    'bootstrapform'
 
 ]
 
