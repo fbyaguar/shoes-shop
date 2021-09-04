@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.db import models
-
+from .models import Wishlist
 # class Contact_form(forms.Form):
 #     subject = forms.CharField(label='Тема', widget=forms.TextInput(attrs={'class': 'form-control'}))
 #     content= forms.CharField(label='Текст', widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5}))
@@ -30,4 +30,17 @@ class User_login_form(AuthenticationForm):
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
 
+class Add_to_wishlist_form(forms.ModelForm):
+    class Meta:
+        model = Wishlist
+        fields = ['user_id', 'shoes_id']
+        widgets = {'shoes_id': forms.Select(attrs={'class': 'form-control'}),
+                   'user_id': forms.Select(attrs={'class': 'form-control'})
+                  }
 
+    def add_error(self, field, error):
+        if field is not None:
+            print('Error on field {}: {}'.format(field, error))
+        else:
+            print('Error on form: {}'.format(error))  # non field error
+        super().add_error(field, error)

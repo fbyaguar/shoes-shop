@@ -106,7 +106,7 @@
                                     </div>
                                    <div class="actions-btn">
                                         <a href="#" data-placement="top" data-target="#quick-view" data-trigger="hover" data-toggle="modal" data-original-title="Quick View"><i class="fa fa-eye"></i></a>
-                                        <a data-placement="top" data-toggle="tooltip" href="#" data-original-title="Add To Wishlist"><i class="fa fa-heart"></i></a>
+                                        <a data-placement="top" data-toggle="tooltip" href="#" data-original-title="Добавить в избранное"><i class="fa fa-heart"></i></a>
                                         <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Compare"><i class="fa fa-retweet"></i></a>
                                         <a href="#" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="fa fa-shopping-cart"></i></a>
                                     </div>
@@ -119,6 +119,16 @@
 							<!-- single product end -->
 
 					</div>
+
+
+
+                 <form method="post" id="wishlistform">
+                                            {% csrf_token %}
+                                            {{ form.user_id.as_hidden }}
+                                            {{ form.shoes_id.as_hidden  }}
+                 </form>
+
+
 
                 	<div class="tab-pane  fade in " id="views">
 
@@ -143,7 +153,20 @@
                                     </div>
                                    <div class="actions-btn">
                                         <a href="#" data-placement="top" data-target="#quick-view" data-trigger="hover" data-toggle="modal" data-original-title="Quick View"><i class="fa fa-eye"></i></a>
-                                        <a data-placement="top" data-toggle="tooltip" href="#" data-original-title="Add To Wishlist"><i class="fa fa-heart"></i></a>
+
+
+
+
+
+
+<button type="button" class="btn-primary"
+        onclick="AddWishlistData('{{ user.id }}', '{{ item.id }}')" name="Wishlistbutton">rr</button>
+
+
+
+
+{#                                            <a onclick="AddWishlistData('{{ user }}', '{{ item.id }}')" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Добавить в избранное"><i class="fa fa-heart"></i></a>#}
+
                                         <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Compare"><i class="fa fa-retweet"></i></a>
                                         <a href="#" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="fa fa-shopping-cart"></i></a>
                                     </div>
@@ -180,7 +203,7 @@
                                     </div>
                                    <div class="actions-btn">
                                         <a href="#" data-placement="top" data-target="#quick-view" data-trigger="hover" data-toggle="modal" data-original-title="Quick View"><i class="fa fa-eye"></i></a>
-                                        <a data-placement="top" data-toggle="tooltip" href="#" data-original-title="Add To Wishlist"><i class="fa fa-heart"></i></a>
+                                        <a data-placement="top" data-toggle="tooltip" href="#" data-original-title="Добавить в избранное"><i class="fa fa-heart"></i></a>
                                         <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Compare"><i class="fa fa-retweet"></i></a>
                                         <a href="#" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="fa fa-shopping-cart"></i></a>
                                     </div>
@@ -632,5 +655,20 @@
 			</div>
        </section>
        <!-- service section end -->
+
+
+
+<script>
+    function AddWishlistData(user,shoes) {
+        document.getElementById('id_user_id').value = user
+        document.getElementById('id_shoes_id').value = shoes
+        document.getElementById('wishlistform').submit()
+    }
+
+    </script>
+
+
+
+
 
 {% endblock %}

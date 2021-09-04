@@ -3,10 +3,10 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView
 import shoes
 
-from user.forms import Registration_form, User_login_form
+from user.forms import Registration_form, User_login_form, Add_to_wishlist_form
 from django.contrib import messages
 # Create your views here.
-from user.models import Favorites
+from user.models import Wishlist
 
 
 def registration(request):
@@ -43,7 +43,12 @@ def user_logout(request):
     return redirect('home')
 
 
-class Wishlist(ListView):
+class WishlistView(ListView):
     template_name = 'user/wishlist.html'
-    model = Favorites
+    model = Wishlist
     context_object_name = 'favorite'
+
+    # def post(self,request):
+    #     form = Add_to_wishlist_form(request.POST)
+    #     if form.is_valid():
+    #         wishlist = form.save(commit=False)

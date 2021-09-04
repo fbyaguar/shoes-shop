@@ -10,8 +10,8 @@
                 <div class="row">
                     <div class="col-md-12 text-center">
                         <div class="con-text">
-                            <h2 class="page-title">Wishlist</h2>
-                            <p><a href="#">Home</a> | Wishlist</p>
+                            <h2 class="page-title">Список желаний</h2>
+                            <p><a href="{% url 'home' %}">На главную</a> | <a href="{% url 'shop' %}">В магазин</a></p>
                         </div>
                     </div>
                 </div>
@@ -28,10 +28,10 @@
                                 <table id="shopping-cart-table" class="data-table cart-table">
                                     <tr>
                                         <th class="low1"></th>
-                                        <th>Images</th>
-                                        <th class="low2">Product Name</th>
-                                        <th>Unit Price </th>
-                                        <th>Stock Status</th>
+                                        <th>Изображение</th>
+                                        <th class="low2">Название</th>
+                                        <th>Цена</th>
+                                        <th>В наличии</th>
                                         <th class="low5"></th>
                                     </tr>
                                     <tr>

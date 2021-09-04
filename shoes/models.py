@@ -76,6 +76,10 @@ class Country(models.Model):
 
 
 class Shoes(models.Model):
+    CHOICES = (
+        ('1', 'мальчик'),
+        ('2', 'девочка')
+    )
     title = models.CharField(max_length=150, verbose_name='Наименование')
     price = models.PositiveSmallIntegerField(default=0,verbose_name='Цена')
     created = models.DateTimeField(auto_now_add=True,verbose_name='Дата создания')
@@ -84,7 +88,7 @@ class Shoes(models.Model):
     category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name='Категория')
     size = models.ManyToManyField(Size, verbose_name='Размеры')
     season = models.ForeignKey(Season,on_delete=models.PROTECT,verbose_name='Сезон')
-    sex = models.BooleanField(default=False, help_text='1 - мальчик, 0 - девочка', verbose_name='Пол')
+    sex = models.CharField(max_length=100,choices = CHOICES, default='девочка', verbose_name='Пол')
     brand = models.ForeignKey(Brand,on_delete=models.PROTECT, verbose_name='Производитель')
     country = models.ForeignKey(Country,on_delete=models.PROTECT, verbose_name='Страна')
    # material = models.ForeignKey(Material, on_delete=models.SET_NULL, null=True, verbose_name='Материал',blank=True)

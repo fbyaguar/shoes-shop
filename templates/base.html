@@ -208,8 +208,12 @@
                                 <div class="right-header re-right-header">
                                     <ul>
                                         <li class="re-icon tnm"><i class="fa fa-search" aria-hidden="true"></i>
-                                            <form method="get" id="searchform" action="#">
-                                                <input type="text" value="" name="s" id="ws" placeholder="Поиск товаров..." />
+{#                                            <form action="{% url 'search' %}" method="get">#}
+{#                                                <input type="search" name="s" class="form-control" required="">#}
+{#                                                <button type="submit">Search</button>#}
+{#                                            </form>#}
+                                            <form method="get" id="searchform" action="{% url 'search' %}">
+                                                <input type="text"  name="s" placeholder="Поиск товаров..." />
                                                 <button type="submit"><i class="pe-7s-search"></i></button>
                                             </form>
                                         </li>

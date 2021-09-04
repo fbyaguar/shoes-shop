@@ -21,7 +21,7 @@ from django.contrib.auth.models import User
 
 
 
-class Favorites(models.Model):
+class Wishlist(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='ID пользователя')
     shoes_id = models.ForeignKey(Shoes, on_delete=models.CASCADE, verbose_name='ID товара')
 

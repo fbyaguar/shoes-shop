@@ -4753,6 +4753,15 @@ img {max-width:100%;}
 	position: relative;
 }
 
+.form-group {
+    margin-bottom: 50px !important;
+}
+
+.form-group .multiple-checkbox ul li {
+    margin: 10px;
+    float: initial;
+}
+
 /*====================================================================
 							[ END ]
 ======================================================================*/
