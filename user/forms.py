@@ -29,18 +29,18 @@ class User_login_form(AuthenticationForm):
     username = forms.CharField(label='Имя пользователя', widget=forms.TextInput(attrs={'class': 'form-control'}))
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
-
-class Add_to_wishlist_form(forms.ModelForm):
-    class Meta:
-        model = Wishlist
-        fields = ['user_id', 'shoes_id']
-        widgets = {'shoes_id': forms.Select(attrs={'class': 'form-control'}),
-                   'user_id': forms.Select(attrs={'class': 'form-control'})
-                  }
-
-    def add_error(self, field, error):
-        if field is not None:
-            print('Error on field {}: {}'.format(field, error))
-        else:
-            print('Error on form: {}'.format(error))  # non field error
-        super().add_error(field, error)
+#
+# class Add_to_wishlist_form(forms.ModelForm):
+#     class Meta:
+#         model = Wishlist
+#         fields = ['user_id', 'shoes_id']
+#         widgets = {'shoes_id': forms.Select(attrs={'class': 'form-control'}),
+#                    'user_id': forms.Select(attrs={'class': 'form-control'})
+#                   }
+#
+#     def add_error(self, field, error):
+#         if field is not None:
+#             print('Error on field {}: {}'.format(field, error))
+#         else:
+#             print('Error on form: {}'.format(error))  # non field error
+#         super().add_error(field, error)
