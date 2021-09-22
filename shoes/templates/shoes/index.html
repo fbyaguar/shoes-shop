@@ -96,6 +96,18 @@
                                             <img src="{{ item.shoes_images_set.first.image.url}}" alt="Изображение обуви" />
                                         </a>
                                     </div>
+                                                                      <div class="size-btn">Размеры:
+
+                                  {% for size in item.size.all %}
+     <a title="{{ size.number }}" onclick="document.getElementById('choosen_size_{{ item.id }}').value={{ size.number }}" data-placement="top" data-toggle="tooltip" href="javascript:void(0)" data-original-title="Compare"><i class="fa fa-retweet"></i>{{ size.number }}</a>
+
+                                        {% endfor %}
+ <input  id="choosen_size_{{ item.id }}" value="{{ item.size.first.number }}">
+{# <button type="submit"#}
+{#        onclick="SendAjaxData('{{ item.id }}', 'wishlist')" class="Wishlistbutton fa fa-heart" data-original-title="Добавить в избранное"></button>#}
+
+
+                                    </div>
                                     <div class="product-dsc">
 {#                                        <h3><a href="{% url 'ShoesDetailview' item.url %}">{{ item.title }}</a></h3>#}
                                             <h3><a href="{{ item.get_absolute_url}}">{{ item.title }}</a></h3>
@@ -106,12 +118,15 @@
                                     </div>
                                    <div class="actions-btn">
                                         <a href="#" data-placement="top" data-target="#quick-view" data-trigger="hover" data-toggle="modal" data-original-title="Quick View"><i class="fa fa-eye"></i></a>
-<button type="submit"
-        onclick="AddWishlistData('{{ item.id }}')" class="Wishlistbutton fa fa-heart" data-original-title="Добавить в избранное"></button>
-                                       {#                                        <a data-placement="top" data-toggle="tooltip" href="#" data-original-title="Добавить в избранное"><i class="fa fa-heart"></i></a>#}
+ <button type="submit"
+        onclick="SendAjaxData('{{ item.id }}', 'wishlist')" class="Wishlistbutton fa fa-heart" data-original-title="Добавить в избранное"></button>
+{#                                        <a data-placement="top" data-toggle="tooltip" href="#" data-original-title="Добавить в избранное"><i class="fa fa-heart"></i></a>#}
                                         <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Compare"><i class="fa fa-retweet"></i></a>
-                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="fa fa-shopping-cart"></i></a>
+ <button type="submit"
+        onclick="SendAjaxData('{{ item.id }}', 'cart')" class="Cartbutton fa fa-shopping-cart" data-original-title="Добавить в корзину"></button>
                                     </div>
+
+
                                 </div>
 							</div>
 
@@ -162,16 +177,18 @@
 
 {#<input type="hidden" name="wishlistshoes_{{ item.id }}">#}
 
-<button type="submit"
-        onclick="AddWishlistData('{{ item.id }}')" class="Wishlistbutton fa fa-heart"></button>
-
-
+ <button type="submit"
+        onclick="SendAjaxData('{{ item.id }}', 'wishlist')" class="Wishlistbutton fa fa-heart" data-original-title="Добавить в избранное"></button>
+{#                                        <a data-placement="top" data-toggle="tooltip" href="#" data-original-title="Добавить в избранное"><i class="fa fa-heart"></i></a>#}
+                                        <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Compare"><i class="fa fa-retweet"></i></a>
+ <button type="submit"
+        onclick="SendAjaxData('{{ item.id }}', 'cart')" class="Cartbutton fa fa-shopping-cart" data-original-title="Добавить в корзину"></button>
 
 
 {#                                            <a onclick="AddWishlistData('{{ user }}', '{{ item.id }}')" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Добавить в избранное"><i class="fa fa-heart"></i></a>#}
 
-                                        <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Compare"><i class="fa fa-retweet"></i></a>
-                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="fa fa-shopping-cart"></i></a>
+{#                                        <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Compare"><i class="fa fa-retweet"></i></a>#}
+{#                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="fa fa-shopping-cart"></i></a>#}
                                     </div>
                                 </div>
 							</div>
@@ -207,10 +224,12 @@
                                    <div class="actions-btn">
                                         <a href="#" data-placement="top" data-target="#quick-view" data-trigger="hover" data-toggle="modal" data-original-title="Quick View"><i class="fa fa-eye"></i></a>
                                      <button type="submit"
-        onclick="AddWishlistData('{{ item.id }}')" class="Wishlistbutton fa fa-heart" data-original-title="Добавить в избранное"></button>
+        onclick="SendAjaxData('{{ item.id }}', 'wishlist')" class="Wishlistbutton fa fa-heart" data-original-title="Добавить в избранное"></button>
 {#                                        <a data-placement="top" data-toggle="tooltip" href="#" data-original-title="Добавить в избранное"><i class="fa fa-heart"></i></a>#}
                                         <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Compare"><i class="fa fa-retweet"></i></a>
-                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="fa fa-shopping-cart"></i></a>
+ <button type="submit"
+        onclick="SendAjaxData('{{ item.id }}', 'cart')" class="Cartbutton fa fa-shopping-cart" data-original-title="Добавить в корзину"></button>
+                                       {#                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="fa fa-shopping-cart"></i></a>#}
                                     </div>
                                 </div>
 							</div>
@@ -309,10 +328,12 @@
                                 </div>
                                 <div class="actions-btn">
                                     <button type="submit"
-        onclick="AddWishlistData('{{ item.id }}')" class="Wishlistbutton fa fa-heart" data-original-title="Добавить в избранное"></button>
+        onclick="SendAjaxData('{{ item.id }}', 'wishlist')" class="Wishlistbutton fa fa-heart" data-original-title="Добавить в избранное"></button>
 {#                                    <a href="#"><i class="fa fa-heart"></i></a>#}
                                     <a href="#"><i class="fa fa-retweet"></i></a>
-                                    <a href="#"><i class="fa fa-shopping-cart"></i></a>
+    <button type="submit"
+        onclick="SendAjaxData('{{ item.id }}', 'cart')" class="Cartbutton fa fa-shopping-cart" data-original-title="Добавить в корзину"></button>
+{#                                    <a href="#"><i class="fa fa-shopping-cart"></i></a>#}
                                 </div>
                             </div>
 
@@ -664,42 +685,29 @@
        <!-- service section end -->
 
 
-
-
-
-
-
-
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-
 <script>
 
- function AddWishlistData(shoes) {
-     {#document.getElementById('wishlistname').value = user#}
-     {#document.getElementById('wishlistshoes'_id).value = id#}
-     shoesjs = shoes
-     {#buttonjs = button#}
- }
+src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"
 
+ function SendAjaxData(shoes,action) {
 
-    $('.Wishlistbutton').click(function(event){
-         event.preventDefault(); //so that we stop normal form submit.
+     shoes_js = shoes
+     action_js = action
+     sizejs = document.getElementById('choosen_size_'+shoes_js).value
+
          $.ajax( {
              url:'{% url 'home' %}',
              type: 'get',
              dataType: 'json',
-             data: {'shoes_id': shoesjs},
+             data: {'shoes_id': shoes_js, 'action': action_js, 'size':sizejs},
+
              success: function(data) {
                return false;
              }
 
     } );
-    });
+ }
 </script>
-
-
 
 
 

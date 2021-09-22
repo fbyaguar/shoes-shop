@@ -132,14 +132,17 @@
                                             {% get_rating item.pk %}
                                         </div>
                                     </div>
+
                                    <div class="actions-btn">
-                                        <a href="#" data-placement="top" data-target="#quick-view" data-trigger="hover" data-toggle="modal" data-original-title="Quick View"><i class="fa fa-eye"></i></a>
-                                              <button type="submit"
-        onclick="AddWishlistData('{{ item.id }}')" class="Wishlistbutton fa fa-heart" data-original-title="Добавить в избранное"></button>
-{#                                        <a data-placement="top" data-toggle="tooltip" href="#" data-original-title="Добавить в избранное"><i class="fa fa-heart"></i></a>#}
-                                        <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Compare"><i class="fa fa-retweet"></i></a>
-                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="fa fa-shopping-cart"></i></a>
-                                    </div>
+                                    <button type="submit"
+        onclick="SendAjaxData('{{ item.id }}', 'wishlist')" class="Wishlistbutton fa fa-heart" data-original-title="Добавить в избранное"></button>
+{#                                    <a href="#"><i class="fa fa-heart"></i></a>#}
+                                    <a href="#"><i class="fa fa-retweet"></i></a>
+    <button type="submit"
+        onclick="SendAjaxData('{{ item.id }}', 'cart')" class="Cartbutton fa fa-shopping-cart" data-original-title="Добавить в корзину"></button>
+{#                                    <a href="#"><i class="fa fa-shopping-cart"></i></a>#}
+                                </div>
+
                                 </div>
 							</div>
 
@@ -252,31 +255,29 @@
        </section>
        <!-- service section end -->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
 
 <script>
 
- function AddWishlistData(shoes) {
-     {#document.getElementById('wishlistname').value = user#}
-     {#document.getElementById('wishlistshoes'_id).value = id#}
-     shoesjs = shoes
-     {#buttonjs = button#}
- }
+src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"
 
+ function SendAjaxData(shoes,action) {
 
-    $('.Wishlistbutton').click(function(event){
-         event.preventDefault(); //so that we stop normal form submit.
+     shoes_js = shoes
+     action_js = action
+
          $.ajax( {
              url:'{% url 'shop' %}',
              type: 'get',
              dataType: 'json',
-             data: {'shoes_id': shoesjs},
+             data: {'shoes_id': shoes_js, 'action': action_js},
+
              success: function(data) {
                return false;
              }
 
     } );
-    });
+ }
 </script>
 
 

@@ -219,37 +219,52 @@
                                         </li>
                                         <li><a href="{% url 'cart' %}"><i class="fa fa-shopping-cart"></i><span class="color1">2</span></a>
                                             <ul class="drop-cart">
+
+
+{% for item in shoes_in_cart %}
+
+
                                                 <li>
-                                                    <a href="{% url 'cart' %}"><img src="{% static 'img/cart/1.png' %}" alt="" /></a>
+                                                    <a href="{% url 'cart' %}"><img src="{{ item.shoes_images_set.first.image.url }}" alt="" /></a>
+
                                                     <div class="add-cart-text">
-                                                        <p><a href="#">White Shirt</a></p>
-                                                        <p>$50.00</p>
-                                                        <span>Color : Blue</span>
-                                                        <span>Size   : SL</span>
+                                                        <p><a href="#">{{ item.title }}</a></p>
+                                                        <p>${{ item.price }}</p>
+{#                                                        <span>Color : Blue</span>#}
+                                                        <span>Размер  : 28</span>
                                                     </div>
                                                     <div class="pro-close">
                                                         <i class="pe-7s-close"></i>
                                                     </div>
                                                 </li>
-                                                <li>
-                                                    <a href="{% url 'cart' %}"><img src="{% static 'img/cart/2.png' %}" alt="" /></a>
-                                                    <div class="add-cart-text">
-                                                        <p><a href="#">White Shirt</a></p>
-                                                        <p>$50.00 x 2</p>
-                                                        <span>Color : Blue</span>
-                                                        <span>Size   : SL</span>
-                                                    </div>
-                                                    <div class="pro-close">
-                                                        <i class="pe-7s-close"></i>
-                                                    </div>
-                                                </li>
+
+
+{% endfor %}
+
+
+
+
+{#                                                <li>#}
+{#                                                    <a href="{% url 'cart' %}"><img src="{% static 'img/cart/2.png' %}" alt="" /></a>#}
+{#                                                    <div class="add-cart-text">#}
+{#                                                        <p><a href="#">White Shirt</a></p>#}
+{#                                                        <p>$50.00 x 2</p>#}
+{#                                                        <span>Color : Blue</span>#}
+{#                                                        <span>Size   : SL</span>#}
+{#                                                    </div>#}
+{#                                                    <div class="pro-close">#}
+{#                                                        <i class="pe-7s-close"></i>#}
+{#                                                    </div>#}
+{#                                                </li>#}
+
+
                                                 <li class="total-amount clearfix">
                                                     <span class="floatleft">total</span>
                                                     <span class="floatright"><strong>= $150.00</strong></span>
                                                 </li>
                                                 <li>
                                                     <div class="goto text-center">
-                                                        <a href="{% url 'cart' %}"><strong>go to cart &nbsp;<i class="pe-7s-angle-right"></i></strong></a>
+                                                        <a href="{% url 'cart' %}"><strong>В корзину<i class="pe-7s-angle-right"></i></strong></a>
                                                     </div>
                                                 </li>
                                                 <li class="checkout-btn text-center">

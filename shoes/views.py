@@ -5,6 +5,8 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView,CreateView
 from django.core.paginator import Paginator
+
+from cart.models import Cart
 from shoesiki import settings
 from shoes.models import Shoes, Commentary,Answer, Category, Brand, Country, Season
 import statistics
@@ -80,11 +82,19 @@ class Shop(ListView):
     def get(self, request, *args, **kwargs):
         user = request.user
         if request.is_ajax():
-            wishlist = Wishlist.objects.filter(user_id=user, shoes_id=request.GET.get('shoes_id'))
-            if wishlist.count() == 0:
-                Wishlist.objects.create(user_id=user, shoes_id_id=request.GET.get('shoes_id'))
+            if request.GET.get('action') == 'wishlist':
+                wishlist = Wishlist.objects.filter(user_id=user, shoes_id=request.GET.get('shoes_id'))
+                if wishlist.count() == 0:
+                    Wishlist.objects.create(user_id=user, shoes_id_id=request.GET.get('shoes_id'))
+                else:
+                    wishlist.delete()
             else:
-                wishlist.delete()
+                if Cart.objects.filter(Q(user_id=user) & Q(shoes_id=request.GET.get('shoes_id'))).count() == 0:
+                    Cart.objects.create(user_id=user, shoes_id=request.GET.get('shoes_id'), number=1)
+                else:
+                    cart = Cart.objects.get(Q(user_id=user) & Q(shoes_id=request.GET.get('shoes_id')))
+                    cart.number += 1
+                    cart.save()
 
         return super(Shop, self).get(request, *args, **kwargs)
 
@@ -119,11 +129,19 @@ def homeview(request):
     shoes = Shoes.objects.all()
     user = request.user
     if request.method=='GET' and request.is_ajax():
-        wishlist = Wishlist.objects.filter(user_id=user, shoes_id=request.GET.get('shoes_id'))
-        if wishlist.count() == 0:
-            Wishlist.objects.create(user_id=user, shoes_id_id=request.GET.get('shoes_id'))
+        if request.GET.get('action') == 'wishlist':
+            wishlist = Wishlist.objects.filter(user_id=user, shoes_id=request.GET.get('shoes_id'))
+            if wishlist.count() == 0:
+                Wishlist.objects.create(user_id=user, shoes_id_id=request.GET.get('shoes_id'))
+            else:
+                wishlist.delete()
         else:
-            wishlist.delete()
+            if Cart.objects.filter(Q(user_id=user) & Q(shoes_id=request.GET.get('shoes_id'))).count() == 0:
+                Cart.objects.create(user_id=user, shoes_id=request.GET.get('shoes_id'), number=1)
+            else:
+                cart = Cart.objects.get(Q(user_id=user) & Q(shoes_id=request.GET.get('shoes_id')))
+                cart.number += 1
+                cart.save()
         return JsonResponse({"data": request.GET.get('shoes_id')}, status=200)
     elif request.method == 'POST':
         pass
@@ -208,13 +226,28 @@ def review(request, slug):
         except Exception:
             print('Чет не то с формой')
     else:
+        if request.method == 'GET' and request.is_ajax():
+            if request.GET.get('action') == 'wishlist':
+                wishlist = Wishlist.objects.filter(user_id=user, shoes_id=request.GET.get('shoes_id'))
+                if wishlist.count() == 0:
+                    Wishlist.objects.create(user_id=user, shoes_id_id=request.GET.get('shoes_id'), size=request.GET.get('size'))
+                else:
+                    wishlist.delete()
+            else:
+                if Cart.objects.filter(Q(user_id=user) & Q(shoes_id=request.GET.get('shoes_id'))).count() == 0:
+                    Cart.objects.create(user_id=user, shoes_id=request.GET.get('shoes_id'), number=int(request.GET.get('number')))
+                else:
+                    cart = Cart.objects.get(Q(user_id=user) & Q(shoes_id=request.GET.get('shoes_id')))
+                    cart.number += int(request.GET.get('number'))
+                    print(request.GET.get('number'))
+                    cart.save()
+            return JsonResponse({},status=200)
         if (request.GET.get('DeleteReviewButton')):     # удаляем отзыв
             for comment in comments:
                 if comment.user == user:
                     comment.delete()
             messages.info(request, 'Отзыв удален')
             return HttpResponseRedirect(request.path_info)
-
         if comment_exists:                               # создание формы для обновления отзыва
             messages.info(request, 'Просто просмотр 2')
             print(str(comment_exists.user) + '  ' + comment_exists.text + '  ' + str(comment_exists.value))

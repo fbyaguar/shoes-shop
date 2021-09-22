@@ -5,10 +5,10 @@ from django.db.models import Count
 
 register = template.Library()
 
-@register.simple_tag()
-def choise_form(choise):
-    vie.choise_f = choise
-    return choise
+# @register.simple_tag()
+# def choise_form(choise):
+#     vie.choise_f = choise
+#     return choise
 
 def get_shoes_id_list_by_comments():
     """получение списка топ 20 обуви по количеству комментариев"""

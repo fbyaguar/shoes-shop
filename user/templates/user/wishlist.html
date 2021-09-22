@@ -24,7 +24,7 @@
                 <div class="row">
                     <div class="col-md-12 col-xs-12">
                         <div class="s-cart-all">
-                            <div class="cart-form table-responsive">
+                            <div id="wishlist_div" class="cart-form table-responsive">
                                 <table id="shopping-cart-table" class="data-table cart-table">
                                     <tr>
                                         <th class="low1"></th>
@@ -35,10 +35,51 @@
                                         <th class="low5"></th>
                                     </tr>
 
+{% for item in favorite %}
+                                     <tr>
+                                        <td class="sop-icon1">
+{#                                            <a href="#">#}
+                                                <button type="submit"
+        onclick="WishlistData('{{ item.id }}', 'delete')" class="Wishlistbutton fa fa-times" data-original-title="Добавить в избранное"></button>
+{#                                                <i class="fa fa-times"></i>#}
+{#                                            </a>#}
+                                        </td>
+                                        <td class="sop-cart">
+                                            <a href="#"><img class="primary-image" alt="" src="{{ item.shoes_images_set.first.image.url }}"></a>
+                                        </td>
+                                        <td class="sop-cart an-sh">
+                                            <div class="tb-beg">
+                                                <a href="#">{{ item.title}}</a>
+                                            </div>
+                                            <div class="last-cart l-mrgn">
+                                                <a class="las4" href="#">Quick View</a>
+                                            </div>
+                                        </td>
+                                        <td class="sop-cart">
+                                            <div class="tb-product-price font-noraure-3">
+                                                <span class="amount">{{ item.price}}</span>
+                                            </div>
+                                        </td>
+                                         <td class="sop-cart">
+                                            <div class="tb-product-price font-noraure-3">
+                                                <span class="amount">{{ item.size}}</span>
+                                            </div>
+                                        </td>
+                                        <td class="cen">
+                                            <span class="wishlist-in-stock">In Stock</span>
+                                        </td>
+                                        <td class="sop-cart">
+                                            <div class="last-cart l-mrgn wish">
+ <button type="submit"
+        onclick="WishlistData('{{ item.id }}', 'cart')" class="Wishlistbutton las4" data-original-title="Добавить в корзину">Добавить в корзину</button>
+                                                {#                                                <a class="las4" href="#"> Add to Cart</a>#}
+                                            </div>
+                                        </td>
+                                    </tr>
 
-                                    {% include 'favorites_list.html' %}
 
 
+  {% endfor %}
                                     <tfoot>
                                         <tr>
                                             <td colspan="6">
@@ -384,36 +425,21 @@
      {#document.getElementById('wishlistshoes'_id).value = id#}
      shoes_js = shoes
      action_js = action
-     {#buttonjs = button#}
- }
 
-    {##}
-    {#$('.Wishlistbutton').click(function(event){#}
-    {#     event.preventDefault(); //so that we stop normal form submit.#}
-    {#     $.ajax( {#}
-    {#         url:'{% url 'home' %}',#}
-    {#         type: 'get',#}
-    {#         dataType: 'json',#}
-    {#         data: {'shoes_id': shoesjs},#}
-    {#         success: function(data) {#}
-    {#           return false;#}
-    {#         }#}
-
-             $('.Wishlistbutton').click(function(event){
-         event.preventDefault(); //so that we stop normal form submit.
          $.ajax( {
              url:'{% url 'wishlist' %}',
              type: 'get',
              dataType: 'json',
              data: {'shoes_id': shoes_js, 'action': action_js},
-                success: function(html){
-                    $("#content").html(html);
+
+             success : function(data){
+                 console.log(data)
+                 $('body').on('submit', '#wishlist_div', function(){});
+               $('#wishlist_div').html(data.html);
              }
 
-
-
     } );
-    });
+ }
 </script>
 
 

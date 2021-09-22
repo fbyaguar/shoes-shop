@@ -87,16 +87,20 @@
                                                     <label>Кол:</label>
                                                     <div class="quantity">
                                                         <div class="cart-plus-minus">
-                                                          <input type="text" value="0" name="qtybutton" class="cart-plus-minus-box">
+                                                          <input type="text" value="1" id="get_number" name="qtybutton" class="cart-plus-minus-box">
                                                          </div>
                                                     </div>
                                                 </div>
                                                 <div class="product-icon">
-                                                    <a href="#">
-                                                        <i class="fa fa-shopping-cart"></i>
+                                                    <a href="javascript:void(0)">
+                                                        <button type="submit"
+        onclick="SendAjaxData('{{ shoes_id.id }}', 'cart', document.getElementById('get_number').value)" class="Wishlistbutton fa fa-shopping-cart" data-original-title="Добавить в избранное"></button>
+{#                                                        <i class="fa fa-shopping-cart"></i>#}
                                                     </a>
-                                                    <a href="#">
-                                                        <i class="fa fa-heart"></i>
+                                                    <a href="javascript:void(0)">
+                                                        <button type="submit"
+        onclick="SendAjaxData('{{ shoes_id.id }}', 'wishlist', document.getElementById('get_number').value)" class="Wishlistbutton fa fa-heart" data-original-title="Добавить в избранное"></button>
+{#                                                        <i class="fa fa-heart"></i>#}
                                                     </a>
                                                     <a href="#">
                                                         <i class="fa fa-retweet"></i>
@@ -849,6 +853,29 @@
         document.getElementById('comment-text').value = text
     }
 
-    </script>
+
+
+src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"
+
+ function SendAjaxData(shoes,action, number) {
+
+     shoes_js = shoes
+     action_js = action
+     number_js = number
+
+         $.ajax( {
+             url:'{{ shoes_id.get_absolute_url}}',
+             type: 'get',
+             dataType: 'json',
+             data: {'shoes_id': shoes_js, 'action': action_js, 'number': number_js},
+
+             success: function(data) {
+               return false;
+             }
+
+    } );
+ }
+</script>
+
 		<!-- quick view end -->
 {% endblock %}

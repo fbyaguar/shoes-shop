@@ -1,6 +1,15 @@
-{% for item in favorite %}
-
+ <table id="shopping-cart-table" class="data-table cart-table">
                                     <tr>
+                                        <th class="low1"></th>
+                                        <th>Изображение</th>
+                                        <th class="low2">Название</th>
+                                        <th>Цена</th>
+                                        <th>В наличии</th>
+                                        <th class="low5"></th>
+                                    </tr>
+
+{% for item in favorite %}
+                                     <tr>
                                         <td class="sop-icon1">
 {#                                            <a href="#">#}
                                                 <button type="submit"
@@ -36,4 +45,25 @@
                                         </td>
                                     </tr>
 
-                                    {% endfor %}
+
+
+  {% endfor %}
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="6">
+                                                <div class="yith-wcwl-share">
+                                                    <div class="as">
+                                                        <h4 class="yith-wcwl-share-title">Share on:</h4>
+                                                    </div>
+                                                    <ul>
+                                                        <li><a href="#"><img src="img/icon-img/facebook.png" alt=""></a></li>
+                                                        <li><a href="#"><img src="img/icon-img/twitter.png" alt=""></a></li>
+                                                        <li><a href="#"><img src="img/icon-img/pinterest.jpg" alt=""></a></li>
+                                                        <li><a href="#"><img src="img/icon-img/googleplus.jpg" alt=""></a></li>
+                                                        <li><a href="#"><img src="img/icon-img/email.jpg" alt=""></a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
