@@ -1,14 +1,11 @@
 from django.urls import path
 
-from shoes.views import  review, Shop, Search, homeview
+from shoes.views import  review, ShopView, SearchView, HomeView
 
-#app_name = 'shoes'
 
 urlpatterns = [
-    #path('', Home.as_view(), name = 'home'),
-    path('', homeview, name = 'home'),
-    path('shoes/<slug:slug>/', review, name= 'ShoesDetailview'),
-    #path('shoes/rating', rating , name= 'rating')
-    path('shop/', Shop.as_view(), name= 'shop'),
-    path('search/', Search.as_view(), name='search')
+    path('', HomeView.as_view(), name = 'home'),
+    path('shoes/<slug:slug>/', review, name= 'review'),
+    path('shop/', ShopView.as_view(), name= 'shop'),
+    path('search/', SearchView.as_view(), name='search')
 ]

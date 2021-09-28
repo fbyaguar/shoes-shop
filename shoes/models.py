@@ -17,12 +17,6 @@ class Category(models.Model):
 
 class Size(models.Model):
     number = models.PositiveSmallIntegerField(default=0,verbose_name='Размер ноги')
-    # twenty = models.BooleanField(default=False, verbose_name='20')
-    # twenty_one = models.BooleanField(default=False, verbose_name='21')
-    # twenty_two = models.BooleanField(default=False, verbose_name='22')
-    # twenty_three = models.BooleanField(default=False, verbose_name='23')
-    # twenty_four = models.BooleanField(default=False, verbose_name='24')
-    # twenty_five= models.BooleanField(default=False, verbose_name='25')
     url = models.SlugField(max_length=150, unique=True)
 
     def __str__(self):
@@ -91,11 +85,7 @@ class Shoes(models.Model):
     sex = models.CharField(max_length=100,choices = CHOICES, default='девочка', verbose_name='Пол')
     brand = models.ForeignKey(Brand,on_delete=models.PROTECT, verbose_name='Производитель')
     country = models.ForeignKey(Country,on_delete=models.PROTECT, verbose_name='Страна')
-   # material = models.ForeignKey(Material, on_delete=models.SET_NULL, null=True, verbose_name='Материал',blank=True)
-   # in_stock = models.PositiveSmallIntegerField(default=0,verbose_name='Количество товара в наличии')          будем считать отдельно
-   #views = models.ForeignKey(Views,on_delete=models.SET_NULL, null=True)
     views = models.PositiveBigIntegerField(default=0, verbose_name='Количество просмотров')
-    # favorites = models.ForeignKey(Favorites,on_delete=models.SET_NULL, null=True )
     rating = models.PositiveSmallIntegerField(default=0,verbose_name='Рейтинг')
     slug = models.SlugField(max_length=150, unique=True)
     # promotions = models.CharField(max_length=20, verbose_name='Акции') добавить позже
@@ -104,7 +94,7 @@ class Shoes(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('ShoesDetailview', kwargs={"slug": self.slug})
+        return reverse('review', kwargs={"slug": self.slug})
 
     class Meta:
         verbose_name = 'Обувь'
@@ -143,12 +133,11 @@ class Shoes_Images(models.Model):
 class Commentary(models.Model):
     shoes = models.ForeignKey(Shoes, on_delete=models.CASCADE, verbose_name='ID товара')
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='ID пользователя')
-   # parent = models.ForeignKey('self', on_delete=models.CASCADE, verbose_name='ID родителя отзыва', default='None', blank=True, null=True)
     text = models.TextField(max_length=1000, verbose_name='Комментарий', blank=True)
     value = models.PositiveSmallIntegerField(default=0,verbose_name='Оценка', blank=True)
     date =  models.DateTimeField(auto_now=True, verbose_name='Дата создания или обновления')
     def __str__(self):
-        return 'пользователь: ' + str(self.user_id)#+ ', отзыв: ' + self.text[20] + ', оценка: ' + str(self.value)
+        return 'пользователь: ' + str(self.user_id)
 
     class Meta:
         verbose_name = 'Отзыв'
@@ -160,7 +149,7 @@ class Answer(models.Model):
     text = models.TextField(max_length=1000, verbose_name='Комментарий', blank=True)
     date =  models.DateTimeField(auto_now=True, verbose_name='Дата создания или обновления')
     def __str__(self):
-        return 'пользователь: ' + str(self.user_id)#+ ', отзыв: ' + self.text[10]
+        return 'пользователь: ' + str(self.user_id)
 
     class Meta:
         verbose_name = 'Ответ'
@@ -168,15 +157,3 @@ class Answer(models.Model):
 
 
 
-# def get_name(self):
-#     return '{} '.format(self.username)
-#
-# User.add_to_class("__str__", get_name)
-
-
-
-
-
-
-
-# Create your models here.

@@ -1,5 +1,6 @@
 from django.urls import path
-from user.views import user_logout, user_login, registration, WishlistView
+from user.services import user_logout, user_login, registration
+from user.views import WishlistView
 
 
 urlpatterns = [
@@ -7,5 +8,4 @@ urlpatterns = [
     path('logout/',user_logout, name ='logout'),
     path('registration/', registration, name='registration'),
     path('wishlist/', WishlistView.as_view(), name='wishlist'),
-    #path('contact/', user_mail, name='contact'),
     ]

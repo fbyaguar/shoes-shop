@@ -7,7 +7,6 @@ class Cart(models.Model):
     number =models.PositiveSmallIntegerField(default=1,verbose_name='Количество')
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='ID пользователя')
 
-
     def __str__(self):
         return f'{self.user_id} - {self.shoes}'
 

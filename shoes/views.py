@@ -1,38 +1,27 @@
-from django.contrib.auth.models import AnonymousUser
-from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import HttpResponseRedirect, JsonResponse
-from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView,CreateView
-from django.core.paginator import Paginator
-
+from django.shortcuts import render
+from django.views.generic import ListView
 from cart.models import Cart
-from shoesiki import settings
-from shoes.models import Shoes, Commentary,Answer, Category, Brand, Country, Season
-import statistics
-from shoes.forms import  Get_commentary ,  Get_reply
+from shoes.models import Shoes, Commentary, Answer
+from shoes.forms import  GetCommentary, GetReply
 from django.contrib import messages
 from django.http import Http404
-from shoes.templatetags.shoes_tags import get_rating_for_views, get_shoes_id_list_by_comments
-# from user.forms import Add_to_wishlist_form
 from user.models import Wishlist
-
-choise_f = 0
-average_rating = 0
-SEARCH_QUERYSET = []
 from shoes.filters import ShoesFilter
+from shoes.services import get_rating_for_views, get_shoes_id_list_by_comments
+
+SEARCH_QUERYSET = [] # сохраняется результат поиска
 
 
-class Search(ListView):
-
+class SearchView(ListView):
     template_name = 'shoes/shop.html'
-    #model = Shoes
     context_object_name = 'shoes'
 
     def get_queryset(self):
         global SEARCH_QUERYSET
         try:
-            if self.request.GET.get('s') != None:
+            if self.request.GET.get('s') != None: # отображаем товары соответствующие поиску
                 SEARCH_QUERYSET = Shoes.objects.filter(
                     Q(title__icontains=self.request.GET.get('s')) | Q(brand__title__icontains=self.request.GET.get('s'))
                     | Q(content__icontains=self.request.GET.get('s')))
@@ -50,21 +39,16 @@ class Search(ListView):
 
     def get(self, request, *args, **kwargs):
         user = request.user
-        if request.is_ajax():
+        if request.is_ajax(): # добавляем товар в избранное, если он уже там - удаляем
             wishlist = Wishlist.objects.filter(user_id=user, shoes_id=request.GET.get('shoes_id'))
             if wishlist.count() == 0:
                 Wishlist.objects.create(user_id=user, shoes_id_id=request.GET.get('shoes_id'))
             else:
                 wishlist.delete()
-
-        return super(Search, self).get(request, *args, **kwargs)
-
+        return super(SearchView, self).get(request, *args, **kwargs)
 
 
-
-
-
-class Shop(ListView):
+class ShopView(ListView):
     """ представление-класс для отображения обуви на странице "магазин" """
     template_name = 'shoes/shop.html'
     model = Shoes
@@ -72,11 +56,40 @@ class Shop(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
-        # context['categories'] = Category.objects.all()
-        # context['brands'] = Brand.objects.all()
-        # context['countries'] = Country.objects.all()
-        # context['seasons'] = Season.objects.all()
         context['filter'] = ShoesFilter(self.request.GET, queryset=self.get_queryset())
+        return context
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        if request.is_ajax():
+            if request.GET.get('action') == 'wishlist':
+                wishlist = Wishlist.objects.filter(user_id=user, shoes_id=request.GET.get('shoes_id'))
+                if wishlist.count() == 0:
+                    Wishlist.objects.create(user_id=user, shoes_id_id=request.GET.get('shoes_id'))
+                else:
+                    wishlist.delete()
+            else: # добавлем товар в корзину или увеличиваем количество товара в корзине на 1
+                if Cart.objects.filter(Q(user_id=user) & Q(shoes_id=request.GET.get('shoes_id'))).count() == 0:
+                    Cart.objects.create(user_id=user, shoes_id=request.GET.get('shoes_id'), number=1)
+                else:
+                    cart = Cart.objects.get(Q(user_id=user) & Q(shoes_id=request.GET.get('shoes_id')))
+                    cart.number += 1
+                    cart.save()
+        return super(ShopView, self).get(request, *args, **kwargs)
+
+
+class HomeView(ListView):
+    """ представление-класс для отображения обуви на главной странице """
+    template_name = 'shoes/index.html'
+    model = Shoes
+    context_object_name = 'shoes'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(HomeView,self).get_context_data()
+        context['first'] = Shoes.objects.first()   # получение первого элемента списка обуви. Далее переделать на получение рандомной обуви
+        context["top_shoes_by_comments"] = get_shoes_id_list_by_comments  # топ 20 обуви по количеству комментариев
+        user = self.request.user
+        context['user'] = user
         return context
 
     def get(self, request, *args, **kwargs):
@@ -95,61 +108,8 @@ class Shop(ListView):
                     cart = Cart.objects.get(Q(user_id=user) & Q(shoes_id=request.GET.get('shoes_id')))
                     cart.number += 1
                     cart.save()
-
-        return super(Shop, self).get(request, *args, **kwargs)
-
-
-
-# class Home(ListView):
-#     """ представление-класс для отображения обуви на главной странице """
-#     template_name = 'shoes/index.html'
-#     model = Shoes
-#     context_object_name = 'shoes'
-#
-#
-#     def get_context_data(self, *, object_list=None, **kwargs):
-#         context = super(Home,self).get_context_data()
-#         context['first'] = Shoes.objects.first()   # получение первого элемента списка обуви. Далее переделать на получение рандомной обуви
-#         context["top_shoes_by_comments"] = get_shoes_id_list_by_comments  # топ 20 обуви по количеству комментариев
-#         context['form'] = Add_to_wishlist_form()
-#         return context
-#
-#
-#     def post(self,request):
-#         form = Add_to_wishlist_form(request.POST)
-#         if form.is_valid():
-#             #wishlist = form.save(commit=False)
-#             form.save()
-#             return HttpResponseRedirect(request.path_info)
-#         else:
-#             messages.error(request, 'Не удалось добавить избранное')
-
-
-def homeview(request):
-    shoes = Shoes.objects.all()
-    user = request.user
-    if request.method=='GET' and request.is_ajax():
-        if request.GET.get('action') == 'wishlist':
-            wishlist = Wishlist.objects.filter(user_id=user, shoes_id=request.GET.get('shoes_id'))
-            if wishlist.count() == 0:
-                Wishlist.objects.create(user_id=user, shoes_id_id=request.GET.get('shoes_id'))
-            else:
-                wishlist.delete()
-        else:
-            if Cart.objects.filter(Q(user_id=user) & Q(shoes_id=request.GET.get('shoes_id'))).count() == 0:
-                Cart.objects.create(user_id=user, shoes_id=request.GET.get('shoes_id'), number=1)
-            else:
-                cart = Cart.objects.get(Q(user_id=user) & Q(shoes_id=request.GET.get('shoes_id')))
-                cart.number += 1
-                cart.save()
-        return JsonResponse({"data": request.GET.get('shoes_id')}, status=200)
-    elif request.method == 'POST':
-        pass
-    else:
-        first = Shoes.objects.first()  # получение первого элемента списка обуви. Далее переделать на получение рандомной обуви
-        top_shoes_by_comments = get_shoes_id_list_by_comments
-        return render(request, 'shoes/index.html',
-                      {'shoes': shoes, 'first':first, 'top_shoes_by_comments': top_shoes_by_comments, 'user':user })
+            return JsonResponse({"data": request.GET.get('shoes_id')}, status=200)
+        return super(HomeView, self).get(request, *args, **kwargs)
 
 
 def review(request, slug):
@@ -183,7 +143,7 @@ def review(request, slug):
         try:
             if  request.POST['rating']:       # проверяем существует ли ключ "рейтинг". Ловим ошибку, если его нет и обрабатываем форму для
                                              # ответа. Если есть обрабатываем форму для отзыва.
-                form = Get_commentary(request.POST)
+                form = GetCommentary(request.POST)
                 print('форма 1')
                 if form.is_valid():
                     if comment_exists:  # обновляем отзыв
@@ -208,7 +168,7 @@ def review(request, slug):
                 else:
                     messages.error(request, 'Не удалось добавить отзыв')
         except KeyError:
-            form = Get_reply(request.POST)
+            form = GetReply(request.POST)
             print('форма 2')
             if form.is_valid():
                 answer = form.save(commit=False)
@@ -220,7 +180,7 @@ def review(request, slug):
                     messages.error(request, 'Не удалось добавить отзыв. Не правильно добвлен пользователь')
                 answer.save()
                 messages.info(request, 'Ответ добавлен')
-                return HttpResponseRedirect('home')
+                return HttpResponseRedirect('request.path_info')
             else:
                 messages.error(request, 'Не правильно заполнена форма 2')
         except Exception:
@@ -251,15 +211,15 @@ def review(request, slug):
         if comment_exists:                               # создание формы для обновления отзыва
             messages.info(request, 'Просто просмотр 2')
             print(str(comment_exists.user) + '  ' + comment_exists.text + '  ' + str(comment_exists.value))
-            form = Get_commentary(
+            form = GetCommentary(
                 initial={'shoes': shoes, 'user': user, 'text': comment_exists.text, 'value': comment_exists.value})
-            form2 = Get_reply(initial={ 'user': user})
+            form2 = GetReply(initial={ 'user': user})
             return render(request, 'shoes/single.html',
                           {'form2': form2, 'user': user, "form": form, 'shoes_id': shoes, 'comments': comments,
                            'value': int(comment_exists.value), 'non_empty_comments':non_empty_comments, 'answers':answers})
         else:
-            form = Get_commentary(initial={'user': user, 'shoes': shoes})
-            form2 = Get_reply(initial={'user': user})
+            form = GetCommentary(initial={'user': user, 'shoes': shoes})
+            form2 = GetReply(initial={'user': user})
             messages.info(request, 'Просто просмотр')
             print(str(comment_exists)+'  '+ str(user))
             return render(request, 'shoes/single.html', {'form2': form2,'user': user, "form": form, 'shoes_id': shoes, 'comments': comments,'non_empty_comments':non_empty_comments,'answers':answers})

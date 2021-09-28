@@ -12,7 +12,6 @@ class ShoesMaterial(admin.StackedInline):
     extra = 1
 
 class ShoesAdmin(admin.ModelAdmin):
-  #  list_display =  [field.name for field in Shoes._meta.get_fields()]
     list_display = ['title','price','rating','category','sex','brand','content']
     list_display_links = ('title',)
     list_filter = ('category','sex','brand',"rating")
@@ -23,7 +22,6 @@ class ShoesAdmin(admin.ModelAdmin):
 
 
 class CategoryAdmin(admin.ModelAdmin):
-
     list_display = ['title','url']
     list_display_links = ('title',)
     prepopulated_fields = {'url': ('title',)}
@@ -37,13 +35,11 @@ class SizeAdmin(admin.ModelAdmin):
 class AnswerAdmin(admin.ModelAdmin):
     list_display = ['user', 'commentary', 'text']
     list_display_links = ('user', 'commentary')
-    #prepopulated_fields = {'url': ('number',)}
 
 class SeasonAdmin(admin.ModelAdmin):
     list_display = ['title', 'url']
     list_display_links = ('title',)
     prepopulated_fields = {'url': ('title',)}
-
 
 class BrandAdmin(admin.ModelAdmin):
     list_display = ['title', 'url', 'logo', 'content']
@@ -55,15 +51,9 @@ class CountryAdmin(admin.ModelAdmin):
     list_display_links = ('title',)
     prepopulated_fields = {'url': ('title',)}
 
-
 class CommentaryAdmin(admin.ModelAdmin):
     list_display = ['user', 'text', 'shoes','value']
     list_display_links = ('user',)
-
-    # def has_add_permission(self, request):
-    #     return False
-
-
 
 
 # Register your models here.
