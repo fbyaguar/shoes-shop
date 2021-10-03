@@ -14,17 +14,23 @@ class CartView(ListView):
     context_object_name = 'shoes'
 
     def get_queryset(self):
-        queryset = get_queryset_func(self.request)
-        for item in queryset:
-            sum = item.cart_set.get(shoes_id=item.pk)
-            item.sum_price = item.price * sum.number
-            item.save()
-        return queryset
+        if self.request.user.is_anonymous:
+            return ''
+        else:
+            queryset = get_queryset_func(self.request)
+            for item in queryset:
+                sum = item.cart_set.get(shoes_id=item.pk)
+                item.sum_price = item.price * sum.number
+                item.save()
+            return queryset
 
     def get_context_data(self, *, object_list=None, **kwargs):
         total_sum = 0
         context = super().get_context_data()
-        context['cart'] = Cart.objects.filter(user_id=self.request.user)
+        if self.request.user.is_anonymous:
+            context['cart'] = ''
+        else:
+            context['cart'] = Cart.objects.filter(user_id=self.request.user)
         for item in self.get_queryset():
             total_sum += item.sum_price
         context['total_sum'] = total_sum
