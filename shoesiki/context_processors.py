@@ -1,11 +1,17 @@
 from shoes.models import Shoes
 from cart.models import Cart
+from cart.services import SessionCart
 
 
 def add_variable_to_context(request):
+    querylist = []
     if request.user.is_anonymous:
+        cart = SessionCart(request)
+        querylist = cart.cart.keys()
+        queryset = Shoes.objects.filter(pk__in=querylist)
         return {
-            'shoes_in_cart': '',
+
+            'shoes_in_cart': queryset,
 
         }
     else:
@@ -15,3 +21,5 @@ def add_variable_to_context(request):
         'shoes_in_cart': queryset,
 
     }
+
+

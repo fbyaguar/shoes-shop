@@ -21,7 +21,11 @@
                                         </td>
                                         <td class="sop-cart an-sh">
                                             <div class="quantity ray">
-                                                <input class="input-text qty text" id="get_number" type="number" size="4" title="Qty" value="{{ item.cart_set.get.number }}" min="0" step="1" onclick="SendAjaxData('{{ item.id }}', 'number', this.value)">
+                                                                                       {% if request.user.is_authenticated %}
+
+                                                <input class="input-text qty text" id="get_number"  type="number" size="4" title="Qty" value="{{ item.cart_set.get.number }}" min="0" step="1" onchange="SendAjaxData('{{ item.id }}', 'number', value)">
+                                           {% else %}
+                                                    <input class="input-text qty text" id="get_number"  type="number" size="4" title="Qty" value="{{ item.quantity }}" min="0" step="1" onchange="SendAjaxData('{{ item.id }}', 'number', value)">{% endif %}
                                             </div>
                                              <button type="submit"
         onclick="SendAjaxData('{{ item.id }}', 'delete', document.getElementById('get_number').value)" class="remove" data-original-title="Удалить из корзины">Удалить</button>

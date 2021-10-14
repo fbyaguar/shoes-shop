@@ -39,11 +39,15 @@
                                     <tr>
                                         <td class="sop-cart an-shop-cart">
                                             <a href="#"><img class="primary-image" alt="" src="{{ item.shoes_images_set.first.image.url}}"></a>
-                                            <a href="#">{{ item.title }}</a>
+                                        <a href="#">{{ item.title }}</a>
                                         </td>
                                         <td class="sop-cart an-sh">
                                             <div class="quantity ray">
+                                                {% if request.user.is_authenticated %}
+
                                                 <input class="input-text qty text" id="get_number"  type="number" size="4" title="Qty" value="{{ item.cart_set.get.number }}" min="0" step="1" onchange="SendAjaxData('{{ item.id }}', 'number', value)">
+                                           {% else %}
+                                                    <input class="input-text qty text" id="get_number"  type="number" size="4" title="Qty" value="{{ item.quantity }}" min="0" step="1" onchange="SendAjaxData('{{ item.id }}', 'number', value)">{% endif %}
                                             </div>
                                             <button type="submit"
         onclick="SendAjaxData('{{ item.id }}', 'delete', document.getElementById('get_number').value) " class="remove" data-original-title="Удалить из корзины">Удалить</button>

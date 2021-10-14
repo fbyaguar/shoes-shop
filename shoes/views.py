@@ -1,6 +1,6 @@
 from django.db.models import Q
 from django.http import HttpResponseRedirect, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
 from cart.models import Cart
 from shoes.models import Shoes, Commentary, Answer
@@ -10,6 +10,7 @@ from django.http import Http404
 from user.models import Wishlist
 from shoes.filters import ShoesFilter
 from shoes.services import get_rating_for_views, get_shoes_id_list_by_comments
+from cart.services import SessionCart
 
 SEARCH_QUERYSET = [] # сохраняется результат поиска
 
@@ -84,6 +85,12 @@ class HomeView(ListView):
     model = Shoes
     context_object_name = 'shoes'
 
+    # def __init__(self,request, **kwargs):
+    #     super().__init__(**kwargs)
+    #     if request.user.is_anonymous:
+
+
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(HomeView,self).get_context_data()
         context['first'] = Shoes.objects.first()   # получение первого элемента списка обуви. Далее переделать на получение рандомной обуви
@@ -102,12 +109,18 @@ class HomeView(ListView):
                 else:
                     wishlist.delete()
             else:
-                if Cart.objects.filter(Q(user_id=user) & Q(shoes_id=request.GET.get('shoes_id'))).count() == 0:
-                    Cart.objects.create(user_id=user, shoes_id=request.GET.get('shoes_id'), number=1)
+                if request.user.is_anonymous:
+                    cart = SessionCart(request)
+                    shoes = get_object_or_404(Shoes, id=request.GET.get('shoes_id'))
+                    cart.add(product=shoes,
+                             quantity='1')
                 else:
-                    cart = Cart.objects.get(Q(user_id=user) & Q(shoes_id=request.GET.get('shoes_id')))
-                    cart.number += 1
-                    cart.save()
+                    if Cart.objects.filter(Q(user_id=user) & Q(shoes_id=request.GET.get('shoes_id'))).count() == 0:
+                        Cart.objects.create(user_id=user, shoes_id=request.GET.get('shoes_id'), number=1)
+                    else:
+                        cart = Cart.objects.get(Q(user_id=user) & Q(shoes_id=request.GET.get('shoes_id')))
+                        cart.number += 1
+                        cart.save()
             return JsonResponse({"data": request.GET.get('shoes_id')}, status=200)
         return super(HomeView, self).get(request, *args, **kwargs)
 
